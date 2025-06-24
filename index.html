@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gender Pay Gap Deutschland - Interaktive Analyse</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero-section" id="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Der Gender Pay Gap in Deutschland</h1>
+                <div class="hero-subtitle">Jede Stunde verlieren Frauen <span class="highlight-amount">4,10€</span></div>
+                
+                <div class="live-counter-container">
+                    <div class="live-counter">
+                        <div class="counter-label">Geld verloren seit Ihrem Besuch:</div>
+                        <div class="counter-value" id="liveCounter">0,00€</div>
+                    </div>
+                </div>
+
+                <div class="salary-comparison">
+                    <div class="salary-bar male-salary">
+                        <div class="salary-label">Männer</div>
+                        <div class="salary-amount">26,34€/h</div>
+                        <div class="salary-visual" style="width: 100%;"></div>
+                    </div>
+                    <div class="salary-bar female-salary">
+                        <div class="salary-label">Frauen</div>
+                        <div class="salary-amount">22,24€/h</div>
+                        <div class="salary-visual" style="width: 84.4%;"></div>
+                    </div>
+                </div>
+
+                <div class="interactive-slider-container">
+                    <label for="salarySlider" class="slider-label">Testen Sie verschiedene Gehaltsstufen:</label>
+                    <input type="range" id="salarySlider" min="20000" max="100000" value="50000" step="1000" class="salary-slider">
+                    <div class="slider-output">
+                        <div class="slider-result">
+                            <span>Bei <span id="sliderSalary">50.000€</span> Jahresgehalt:</span>
+                            <div class="gap-visualization">
+                                <span class="gap-amount" id="gapAmount">8.000€</span> weniger pro Jahr
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Entfernt: Button "Detaillierte Analyse entdecken" -->
+                <!-- <button class="btn btn--primary btn--lg cta-button" onclick="scrollToNext()">
+                    Detaillierte Analyse entdecken
+                </button> -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Historical Development -->
+    <section class="section historical-section" id="historical">
+        <div class="container">
+            <h2>Historische Entwicklung: Stillstand statt Fortschritt</h2>
+            <p>Seit 2020 stagnierte der Gender Pay Gap bei 18%. Erst 2024 gab es wieder eine Verbesserung auf 16%.</p>
+            
+            <div class="chart-container">
+                <canvas id="historicalChart"></canvas>
+            </div>
+
+            <div class="timeline-highlights">
+                <div class="highlight-item">
+                    <div class="highlight-year">2020-2023</div>
+                    <div class="highlight-text">Stagnation bei 18% - vier Jahre ohne Fortschritt</div>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-year">2024</div>
+                    <div class="highlight-text">Verbesserung auf 16% - langsamer Fortschritt</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Migration Pay Gap -->
+    <section class="section migration-section" id="migration">
+        <div class="container">
+            <h2>Doppelte Diskriminierung: Geschlecht + Migrationshintergrund</h2>
+            <p>Frauen mit Migrationshintergrund erleben intersektionale Diskriminierung und verdienen 32% weniger als deutsche Männer.</p>
+            
+            <div class="discrimination-chart">
+                <div class="bar-item">
+                    <div class="bar-label">Deutsche Männer</div>
+                    <div class="bar-container">
+                        <div class="bar" style="width: 100%; background: var(--color-primary);">100%</div>
+                    </div>
+                </div>
+                <div class="bar-item">
+                    <div class="bar-label">Deutsche Frauen</div>
+                    <div class="bar-container">
+                        <div class="bar" style="width: 84%; background: var(--color-warning);">84% (-16%)</div>
+                    </div>
+                </div>
+                <div class="bar-item">
+                    <div class="bar-label">Männer mit Migrationshintergrund</div>
+                    <div class="bar-container">
+                        <div class="bar" style="width: 82%; background: var(--color-info);">82% (-18%)</div>
+                    </div>
+                </div>
+                <div class="bar-item">
+                    <div class="bar-label">Frauen mit Migrationshintergrund</div>
+                    <div class="bar-container">
+                        <div class="bar" style="width: 68%; background: var(--color-error);">68% (-32%)</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="insight-box">
+                <h3>Kernaussage</h3>
+                <p>Frauen mit Migrationshintergrund sind am stärksten betroffen - sie erleben sowohl Geschlechts- als auch Herkunftsdiskriminierung. Der Unterschied zu deutschen Männern beträgt dramatische 32%.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Personal Calculator -->
+    <section class="section calculator-section" id="calculator">
+        <div class="container">
+            <h2>Ihr persönlicher Lohnlücken-Rechner</h2>
+            <p>Berechnen Sie Ihren persönlichen Verlust über das gesamte Berufsleben</p>
+            
+            <div class="calculator-form">
+                <div class="form-group">
+                    <label for="personalSalary" class="form-label">Ihr aktuelles Jahresgehalt:</label>
+                    <input type="number" id="personalSalary" class="form-control" value="50000" min="20000" max="200000" step="1000">
+                </div>
+                
+                <div class="form-group">
+                    <label for="personalAge" class="form-label">Ihr aktuelles Alter:</label>
+                    <input type="number" id="personalAge" class="form-control" value="30" min="22" max="65">
+                </div>
+
+                <div class="form-group">
+                    <label for="personalGender" class="form-label">Ihr Geschlecht:</label>
+                    <select id="personalGender" class="form-control">
+                        <option value="female">Weiblich</option>
+                        <option value="male">Männlich</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="calculation-result" id="calculationResult">
+                <div class="result-highlight">
+                    <div class="loss-amount" id="lifetimeLoss">560.000€</div>
+                    <div class="loss-label">Verlust über das Berufsleben</div>
+                </div>
+                
+                <div class="what-could-buy">
+                    <h4>Das könnten Sie sich davon leisten:</h4>
+                    <div class="purchase-options" id="purchaseOptions">
+                        <div class="purchase-item">Haus-Anzahlung: <span>200.000€</span></div>
+                        <div class="purchase-item">14 Neuwagen: <span>560.000€</span></div>
+                        <div class="purchase-item">17 Studienfinanzierungen: <span>560.000€</span></div>
+                        <div class="purchase-item">Altersvorsorge-Bonus: <span>560.000€</span></div>
+                    </div>
+                </div>
+
+                <button class="btn btn--primary share-result" onclick="shareResult()">
+                    Ergebnis teilen
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Career Progression -->
+    <section class="section career-section" id="career">
+        <div class="container">
+            <h2>Lebenslauf einer Lohnlücke</h2>
+            <p>Sehen Sie, wie sich der Gap mit dem Alter entwickelt - besonders dramatisch ab 35 Jahren</p>
+            
+            <div class="age-slider-container">
+                <label for="ageSlider">Alter: <span id="currentAge">30</span> Jahre</label>
+                <input type="range" id="ageSlider" min="25" max="65" value="30" step="5" class="age-slider">
+            </div>
+
+            <div class="career-visualization">
+                <div class="age-info" id="ageInfo">
+                    <div class="age-gap">Gap: <span id="ageGapValue">14%</span></div>
+                    <div class="age-description" id="ageDescription">
+                        Mit 30 Jahren beginnt die "Mutterschaftsstrafe" - der Gender Pay Gap verdoppelt sich durch Familiengründung und Teilzeitarbeit.
+                    </div>
+                </div>
+                
+                <div class="career-paths">
+                    <div class="path-scenario">
+                        <h4>Szenario: Mit Kindern</h4>
+                        <div class="path-progression" id="withKidsPath"></div>
+                    </div>
+                    <div class="path-scenario">
+                        <h4>Szenario: Ohne Kinder</h4>
+                        <div class="path-progression" id="withoutKidsPath"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Industry Analysis -->
+    <section class="section industry-section" id="industry">
+        <div class="container">
+            <h2>Branchenanalyse: Wo ist der Gap am größten?</h2>
+            <p>Interaktive Visualisierung der Lohnlücken nach Branchen - bewegen Sie die Maus über die Balken für Details</p>
+            
+            <div class="industry-analysis" id="industryData">
+                <!-- Industry data will be populated by JavaScript -->
+            </div>
+
+            <div class="industry-insights">
+                <div class="insight-card">
+                    <h4>Größte Lücken</h4>
+                    <p>Medizintechnik (22,6%) und Business Development (18%) führen die Liste der größten Pay Gaps an.</p>
+                </div>
+                <div class="insight-card">
+                    <h4>Faire Branchen</h4>
+                    <p>Import/Export (0,3%) und Gesundheitswesen (3,2%) zeigen, dass Lohngerechtigkeit möglich ist.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pension Gap -->
+    <section class="section pension-section" id="pension">
+        <div class="container">
+            <h2>Die Rentenlücke: Altersarmut vorprogrammiert</h2>
+            <div class="pension-stats">
+                <div class="stat-card dramatic">
+                    <div class="stat-number">27,1%</div>
+                    <div class="stat-label">Rentenlücke zwischen Männern und Frauen</div>
+                </div>
+                <div class="stat-card warning">
+                    <div class="stat-number">20,8%</div>
+                    <div class="stat-label">Frauen über 65 armutsgefährdet</div>
+                </div>
+                <div class="stat-card comparison">
+                    <div class="stat-number">15,9%</div>
+                    <div class="stat-label">Männer über 65 armutsgefährdet</div>
+                </div>
+            </div>
+            
+            <div class="compound-effect">
+                <h3>Der Zinseszinseffekt der Diskriminierung</h3>
+                <div class="effect-visualization">
+                    <div class="effect-stage">
+                        <div class="stage-title">Berufseinstieg (25)</div>
+                        <div class="stage-gap">9% Gap</div>
+                    </div>
+                    <div class="effect-arrow">→</div>
+                    <div class="effect-stage">
+                        <div class="stage-title">Familiengründung (35)</div>
+                        <div class="stage-gap">19% Gap</div>
+                    </div>
+                    <div class="effect-arrow">→</div>
+                    <div class="effect-stage">
+                        <div class="stage-title">Karrierehöhepunkt (45)</div>
+                        <div class="stage-gap">28% Gap</div>
+                    </div>
+                    <div class="effect-arrow">→</div>
+                    <div class="effect-stage">
+                        <div class="stage-title">Rente (65)</div>
+                        <div class="stage-gap">27% Rentenlücke</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Adjusted vs Unadjusted -->
+    <section class="section explanation-section" id="explanation">
+        <div class="container">
+            <h2>16% vs 6%: Warum die "Bereinigung" das Problem verschleiert</h2>
+            
+            <div class="gap-comparison">
+                <div class="gap-card unadjusted">
+                    <h3>16% Unbereinigter Gap</h3>
+                    <p>Zeigt die tatsächliche Realität: Frauen verdienen 16% weniger als Männer</p>
+                    <div class="gap-visual" style="background: linear-gradient(90deg, var(--color-primary) 84%, var(--color-error) 84%);">
+                        <span class="gap-label">84% Frauenlohn</span>
+                    </div>
+                </div>
+                
+                <div class="gap-card adjusted">
+                    <h3>6% Bereinigter Gap</h3>
+                    <p>Rechnet strukturelle Faktoren weg - aber das sind genau die Probleme!</p>
+                    <div class="gap-visual" style="background: linear-gradient(90deg, var(--color-primary) 94%, var(--color-error) 94%);">
+                        <span class="gap-label">94% nach "Bereinigung"</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="factors-breakdown">
+                <h3>Was wird "weggerechnet"?</h3>
+                <div class="factor-list">
+                    <div class="factor-item">
+                        <div class="factor-name">Teilzeitarbeit</div>
+                        <div class="factor-impact">-3%</div>
+                        <div class="factor-explanation">Aber: Warum arbeiten Frauen Teilzeit? Meist wegen Kinderbetreuung!</div>
+                    </div>
+                    <div class="factor-item">
+                        <div class="factor-name">Branchenwahl</div>
+                        <div class="factor-impact">-4%</div>
+                        <div class="factor-explanation">Aber: Warum sind "Frauenberufe" schlechter bezahlt?</div>
+                    </div>
+                    <div class="factor-item">
+                        <div class="factor-name">Führungspositionen</div>
+                        <div class="factor-impact">-3%</div>
+                        <div class="factor-explanation">Aber: Warum sind Frauen seltener in Führung?</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="critical-analysis">
+                <h3>Warum 6% noch alarmierender sind</h3>
+                <p>Die verbleibenden 6% sind <strong>direkte Diskriminierung</strong> - gleiches Gehalt für gleiche Arbeit gibt es nicht!</p>
+                <div class="analysis-points">
+                    <div class="point">Gleiche Qualifikation, unterschiedliche Bezahlung</div>
+                    <div class="point">Unbewusste Vorurteile in Gehaltsverhandlungen</div>
+                    <div class="point">Systematische Unterbewertung von Frauen</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- International Comparison -->
+    <section class="section comparison-section" id="comparison">
+        <div class="container">
+            <h2>Deutschland im internationalen Vergleich</h2>
+            <div class="comparison-subtitle">Deutschland gehört zu den schlechtesten EU-Ländern</div>
+            
+            <div class="comparison-grid">
+                <div class="country-card worst">
+                    <div class="country-name">Lettland</div>
+                    <div class="country-gap">19%</div>
+                    <div class="country-rank">#1 Schlechtestes</div>
+                </div>
+                <div class="country-card current">
+                    <div class="country-name">Deutschland</div>
+                    <div class="country-gap">16%</div>
+                    <div class="country-rank">#4 von 27</div>
+                </div>
+                <div class="country-card average">
+                    <div class="country-name">EU-Durchschnitt</div>
+                    <div class="country-gap">12%</div>
+                    <div class="country-rank">Durchschnitt</div>
+                </div>
+                <div class="country-card best">
+                    <div class="country-name">Luxemburg</div>
+                    <div class="country-gap">-0,9%</div>
+                    <div class="country-rank">Bestwert</div>
+                </div>
+            </div>
+
+            <!-- <div class="iceland-spotlight">
+                <h3>Islands Erfolgsgeheimnis</h3>
+                <div class="iceland-features">
+                    <div class="feature">Lohntransparenz-Gesetz seit 2018</div>
+                    <div class="feature">Verpflichtende Elternzeit für Väter</div>
+                    <div class="feature">Zertifizierungspflicht für Unternehmen</div>
+                    <div class="feature">Starke Gewerkschaften</div>
+                </div>
+            </div> -->
+        </div>
+    </section>
+
+    <!-- Solutions -->
+    <section class="section solutions-section" id="solutions">
+        <div class="container">
+            <h2>Lösungen: Was wirklich funktioniert</h2>
+            <p>Evidenzbasierte Maßnahmen für mehr Lohngerechtigkeit</p>
+            
+            <div class="solution-cards">
+                <div class="solution-card">
+                    <h4>EU-Transparenz-Richtlinie</h4>
+                    <div class="solution-timeline">Countdown bis 2026</div>
+                    <p>Gehaltsangaben in Stellenausschreibungen werden verpflichtend. Potentielle Reduktion: 8%</p>
+                </div>
+                <div class="solution-card">
+                    <h4>Bessere Kinderbetreuung</h4>
+                    <div class="solution-impact">Reduktion: 10%</div>
+                    <p>Ganztägige, qualitativ hochwertige Betreuung reduziert die Teilzeitfalle für Frauen.</p>
+                </div>
+                <div class="solution-card">
+                    <h4>Väterkarenz wie in Island</h4>
+                    <div class="solution-impact">Reduktion: 11%</div>
+                    <p>Verpflichtende Elternzeit für Männer reduziert die Mutterschaftsstrafe erheblich.</p>
+                </div>
+            </div>
+
+            <!-- Entfernt: Policy-Simulator -->
+            <!--
+            <div class="policy-simulator">
+                ...
+            </div>
+            -->
+
+            <div class="action-section">
+                <h3>Was Sie jetzt tun können</h3>
+                <div class="action-grid">
+                    <div class="action-card">
+                        <h4>Als Individuum</h4>
+                        <ul>
+                            <li>Gehalt transparent diskutieren</li>
+                            <li>Gehaltsverhandlung vorbereiten</li>
+                            <li>Awareness schaffen</li>
+                        </ul>
+                    </div>
+                    <div class="action-card">
+                        <h4>Als Unternehmen</h4>
+                        <ul>
+                            <li>Gehaltstransparenz einführen</li>
+                            <li>Unbewusste Vorurteile abbauen</li>
+                            <li>Flexible Arbeitsmodelle</li>
+                        </ul>
+                    </div>
+                    <div class="action-card">
+                        <h4>Als Politik</h4>
+                        <ul>
+                            <li>EU-Richtlinie umsetzen</li>
+                            <li>Kinderbetreuung ausbauen</li>
+                            <li>Väterkarenz einführen</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer-section">
+        <div class="container">
+            <div class="final-cta">
+                <h3>Machen Sie den Unterschied!</h3>
+                <p>Teilen Sie diese Erkenntnisse und setzen Sie sich für Lohngerechtigkeit ein.</p>
+                <div class="cta-buttons">
+                    <button class="btn btn--primary" onclick="shareWebsite()">Website teilen</button>
+                    <!-- Entfernt: Analyse wiederholen Button -->
+                    <!-- <button class="btn btn--secondary" onclick="restartJourney()">Analyse wiederholen</button> -->
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Neuer Footer-Bereich -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Über dieses Projekt</h3>
+                    <p>Diese Website soll auf kreative und interaktive Weise über die geschlechterbedingte Lohnlücke in Deutschland informieren.</p>
+                    <p>Die Daten basieren auf offiziellen Statistiken des Statistischen Bundesamtes und der Europäischen Union.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Ressourcen</h3>
+                    <ul>
+                        <li><a href="https://www.destatis.de/DE/Themen/Arbeit/Verdienste/Verdienste-Verdienstunterschiede/_inhalt.html" target="_blank">Statistisches Bundesamt</a></li>
+                        <li><a href="https://ec.europa.eu/eurostat/de/web/main/data/database" target="_blank">Eurostat</a></li>
+                        <li><a href="https://www.bmfsfj.de/bmfsfj/themen/gleichstellung/gleichstellung-und-teilhabe/entgelttransparenz" target="_blank">Bundesministerium für Familie, Senioren, Frauen und Jugend</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-copyright">
+                <p>&copy; 2025 Geschlechterbedingte Lohnlücke Informationsportal</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
