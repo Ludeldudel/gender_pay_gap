@@ -15,3 +15,5 @@
 [] Politik löschen 
 
 [] Gestalterisch z.B. farbverlauf -> wenn man runter scrolled soll es dunkler werden weil es schlimmer wird
+
+[] 7 Segment display soll korrekt auf smartphone skalieren (oder wir lassen es nur auf einem tablet laufen und mahchen und darüber keine gedanken lol)
