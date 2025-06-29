@@ -15,3 +15,5 @@
 [] Politik löschen 
 
 [] Gestalterisch z.B. farbverlauf -> wenn man runter scrolled soll es dunkler werden weil es schlimmer wird
+
+hat mich nicht überzeugt
