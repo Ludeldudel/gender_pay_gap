@@ -3,13 +3,14 @@
 
 [] Collaborationst disclaimer ( Man soll checken das es unser Modul ist) 
 
-[] Die Zahl ist nur eine Schätzung zur veranschaulichung
+[x] Die Zahl ist nur eine Schätzung zur veranschaulichung
 
-[] Ist verlieren das richtige oder sollen wir veranschaulichen was Männer mehr verdienen? 
+[x] Ist verlieren das richtige oder sollen wir veranschaulichen was Männer mehr verdienen? 
+- ich sag ja verlieren ist das richtige, weil Deu ein Hochlohnland ist und ich dann das männl. Gehalt als Maßstab nehmen würde. - Zitat Ende
 
-[] opt. Statt Verlieren von Geld etwas anderes 
+[x] opt. Statt Verlieren von Geld etwas anderes 
 
-[] Maßnahmen statt Lösungen 
+[x] Maßnahmen statt Lösungen 
 
 [] Politik löschen 
 
