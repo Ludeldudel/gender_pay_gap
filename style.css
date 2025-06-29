@@ -150,16 +150,16 @@
   --color-surface: rgba(38, 40, 40, 1);
   --color-text: rgba(245, 245, 245, 1);
   --color-text-secondary: rgba(167, 169, 169, 0.7);
-  --color-primary: rgba(50, 184, 198, 1);
-  --color-primary-hover: rgba(45, 166, 178, 1);
+  --color-primary: rgba(109, 227, 148, 0.5);
+  --color-primary-hover: rgb(88, 104, 105);
   --color-primary-active: rgba(41, 150, 161, 1);
   --color-secondary: rgba(119, 124, 124, 0.15);
   --color-secondary-hover: rgba(119, 124, 124, 0.25);
   --color-secondary-active: rgba(119, 124, 124, 0.3);
   --color-border: rgba(119, 124, 124, 0.3);
-  --color-error: rgba(255, 84, 89, 1);
-  --color-success: rgba(50, 184, 198, 1);
-  --color-warning: rgba(230, 129, 97, 1);
+  --color-error: rgb(159, 98, 248);
+  --color-success: rgba(109, 227, 148, 0.5);
+  --color-warning: rgba(159, 98, 248, 0.5);
   --color-info: rgba(167, 169, 169, 1);
   --color-focus-ring: rgba(50, 184, 198, 0.4);
   --color-btn-primary-text: rgba(19, 52, 59, 1);
@@ -521,9 +521,15 @@ select.form-control {
 
 .counter-value {
   font-size: 2.5rem;
-  font-weight: var(--font-weight-bold);
+  font-weight: bold;
   color: var(--color-error);
-  font-family: var(--font-family-mono);
+  font-family: 'Orbitron', 'Courier New', Courier, monospace;
+  letter-spacing: 0.08em;
+  background: #222;
+  padding: 0.2em 0.6em;
+  border-radius: 0.2em;
+  box-shadow: 0 0 8px #000 inset;
+  text-shadow: 0 0 8px var(--color-error), 0 0 2px #fff;
 }
 
 /* Salary Comparison */
@@ -1491,4 +1497,92 @@ select.form-control {
   font-family: 'FKGroteskNeue';
   src: url('https://r2cdn.perplexity.ai/fonts/FKGroteskNeue.woff2')
     format('woff2');
+}
+
+.seven-segment {
+  display: flex;
+  gap: 0.2em;
+  justify-content: center;
+  align-items: center;
+  background: #222;
+  padding: 0.3em 0.7em;
+  border-radius: 0.3em;
+  box-shadow: 0 0 8px #000 inset;
+}
+
+.digit {
+  position: relative;
+  width: 1.1em;
+  height: 2em;
+  display: inline-block;
+}
+
+.segment {
+  position: absolute;
+  background: #0f0;
+  opacity: 0.15;
+  transition: opacity 0.1s;
+  border-radius: 0.2em;
+}
+
+.on { opacity: 1; }
+
+.segment.a { top: 0; left: 0.18em; width: 0.74em; height: 0.22em; }
+.segment.b { top: 0.18em; right: 0; width: 0.22em; height: 0.74em; }
+.segment.c { bottom: 0.18em; right: 0; width: 0.22em; height: 0.74em; }
+.segment.d { bottom: 0; left: 0.18em; width: 0.74em; height: 0.22em; }
+.segment.e { bottom: 0.18em; left: 0; width: 0.22em; height: 0.74em; }
+.segment.f { top: 0.18em; left: 0; width: 0.22em; height: 0.74em; }
+.segment.g { top: 0.89em; left: 0.18em; width: 0.74em; height: 0.22em; }
+.segment.dot { right: -0.3em; bottom: 0; width: 0.18em; height: 0.18em; border-radius: 50%; background: #0f0; opacity: 0.15; }
+
+
+.digit.euro {
+  width: 1.1em;
+  height: 2em;
+  position: relative;
+  display: inline-block;
+}
+
+.euro-segment {
+  position: absolute;
+  background: #0f0;
+  opacity: 0.15;
+  border-radius: 0.18em;
+  transition: opacity 0.1s;
+}
+
+.euro-segment.on { opacity: 1; }
+
+
+.euro-segment.e1 { top: 0em; left: 0.18em; width: 0.74em; height: 0.22em; }
+.euro-segment.e2 { top: 0.18em; left: 0; width: 0.22em; height: 0.74em; } 
+.euro-segment.e3 { top: 0.89em; left: 0.18em; width: 0.74em; height: 0.22em; } 
+.euro-segment.e4 { bottom: 0.18em; left: 0; width: 0.22em; height: 0.74em; }   
+.euro-segment.e5 { bottom: 0; left: 0.18em; width: 0.74em; height: 0.22em; }    
+/* .euro-segment.e6 { top: 0.65em; left: 0.25em; width: 0.6em; height: 0.14em; border-radius: 0.1em; } */
+/* .euro-segment.e7 { top: 1.15em; left: 0.25em; width: 0.6em; height: 0.14em; border-radius: 0.1em; } */
+
+.digit.dot {
+  width: 0.5em;
+  height: 2em;
+  display: block;
+  position: relative;
+  margin: 0 -0.05em 0 -0.05em;
+  z-index: 1;
+}
+
+.segment.dot {
+  position: absolute;
+  left: 50%;
+  bottom: -0.11em;
+  transform: translateX(-50%);
+  width: 0.22em;
+  height: 0.22em;
+  border-radius: 0;
+  background: #0f0;
+  opacity: 1;
+  box-shadow: none;
+  margin: 0;
+  display: block;
 }

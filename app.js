@@ -170,13 +170,109 @@ function startLiveCounter() {
         const hourlyLoss = 4.10;
         const secondlyLoss = hourlyLoss / 3600;
         const totalLoss = womenInGermany * secondlyLoss * elapsed / 3;
-        
-        counterElement.textContent = `${Math.round(totalLoss).toLocaleString('de-DE')}€`;
+        const displayValue = Math.round(totalLoss).toLocaleString('de-DE');
+        renderSevenSegmentDisplay(displayValue);
     }
     
     // Update more frequently for smoother animation
     setInterval(updateCounter, 50);
     updateCounter(); // Initial update
+}
+
+function renderSevenSegmentDisplay(value) {
+    const container = document.getElementById('liveCounter');
+    if (!container) return;
+
+    // Wert als reine Ziffern, auf 10 Stellen auffüllen
+    let str = value.replace(/[^\d]/g, '').padStart(10, '0');
+
+    // Tausenderpunkte berechnen (bei 10 Stellen: 1.000.000.000)
+    // Wir bauen das Array von rechts nach links und fügen nach jedem 3. Ziffer einen Punkt ein (außer am Ende)
+    let segments = [];
+    for (let i = 0; i < str.length; i++) {
+        // Ziffer
+        segments.push({ type: 'digit', value: str[str.length - 1 - i] });
+        // Punkt nach jedem dritten Ziffer, aber nicht am Ende
+        if ((i + 1) % 3 === 0 && i !== str.length - 1) {
+            segments.push({ type: 'dot' });
+        }
+    }
+    segments = segments.reverse();
+
+    // Eurozeichen am Ende
+    // segments.push({ type: 'euro' });
+
+    // HTML generieren
+    container.innerHTML = segments.map(seg => {
+        if (seg.type === 'digit') {
+            return `<span class="digit"></span>`;
+        }
+        if (seg.type === 'dot') {
+            return `<span class="digit dot"><span class="segment dot on"></span></span>`;
+        }
+        if (seg.type === 'euro') {
+            return `<span class="digit euro"></span>`;
+        }
+        return '';
+    }).join('');
+
+    // Segmente setzen
+    let digitIndex = 0;
+    const digitElements = container.querySelectorAll('.digit:not(.dot):not(.euro)');
+    for (let i = 0; i < digitElements.length; i++) {
+        setSevenSegment(digitElements[i], str[i]);
+    }
+    // Euro-Segment
+    const euro = container.querySelector('.digit.euro');
+    setEuroSegment(euro);
+}
+
+function setEuroSegment(el) {
+    el.innerHTML = '';
+    // 7 Segmente für ein stilisiertes "E" (ähnlich wie ein Eurozeichen)
+    const segs = ['e1','e2','e3','e4','e5','e6', 'e7'];
+    // Alle Segmente "on" für ein Euro-ähnliches Segment
+    for (let i = 0; i < segs.length; i++) {
+        const seg = document.createElement('div');
+        seg.className = 'euro-segment ' + segs[i] + ' on';
+        el.appendChild(seg);
+    }
+}
+
+function setSevenSegment(el, char) {
+    // Segment-Mapping für 0-9
+    const map = {
+        '0': [1,1,1,1,1,1,0],
+        '1': [0,1,1,0,0,0,0],
+        '2': [1,1,0,1,1,0,1],
+        '3': [1,1,1,1,0,0,1],
+        '4': [0,1,1,0,0,1,1],
+        '5': [1,0,1,1,0,1,1],
+        '6': [1,0,1,1,1,1,1],
+        '7': [1,1,1,0,0,0,0],
+        '8': [1,1,1,1,1,1,1],
+        '9': [1,1,1,1,0,1,1]
+    };
+    // Entferne alte Segmente
+    el.innerHTML = '';
+    const segs = ['a','b','c','d','e','f','g'];
+    const val = map[char] || [0,0,0,0,0,0,0];
+    for (let i = 0; i < 7; i++) {
+        const seg = document.createElement('div');
+        seg.className = 'segment ' + segs[i] + (val[i] ? ' on' : '');
+        el.appendChild(seg);
+    }
+}
+
+// Im updateCounter() die Anzeige anpassen:
+function updateCounter() {
+    const elapsed = (Date.now() - startTime) / 1000; // seconds
+    const womenInGermany = 29000000; // approximate
+    const hourlyLoss = 4.10;
+    const secondlyLoss = hourlyLoss / 3600;
+    const totalLoss = womenInGermany * secondlyLoss * elapsed / 3;
+    const displayValue = Math.round(totalLoss).toLocaleString('de-DE');
+    renderSevenSegmentDisplay(displayValue);
 }
 
 function updateSalaryGap() {

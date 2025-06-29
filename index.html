@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gender Pay Gap Deutschland - Interaktive Analyse</title>
     <link rel="stylesheet" href="style.css">
+
 </head>
 <body>
     <!-- Hero Section -->
@@ -17,7 +18,20 @@
                 <div class="live-counter-container">
                     <div class="live-counter">
                         <div class="counter-label">Geld verloren seit Ihrem Besuch:</div>
-                        <div class="counter-value" id="liveCounter">0,00€</div>
+                        <div class="counter-value seven-segment" id="liveCounter">
+                          <!-- 10 digits + € sign, initialisiert mit 0 -->
+                          <span class="digit" data-char="0"></span>
+                          <span class="digit" data-char="0"></span>
+                          <span class="digit" data-char="0"></span>
+                          <span class="digit" data-char="0"></span>
+                          <span class="digit" data-char="0"></span>
+                          <span class="digit" data-char="0"></span>
+                          <span class="digit" data-char="0"></span>
+                          <span class="digit" data-char="0"></span>
+                          <span class="digit" data-char="0"></span>
+                          <span class="digit" data-char="0"></span>
+                          <!-- <span class="digit euro"></span> -->
+                        </div>
                     </div>
                 </div>
 
