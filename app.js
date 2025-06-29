@@ -676,3 +676,15 @@ function formatCurrency(amount) {
 }
 
 window.addEventListener('resize', debounce(drawHistoricalChart, 150));
+
+// Dramatic darkening effect on scroll
+window.addEventListener('scroll', function() {
+    const overlay = document.getElementById('dark-overlay');
+    const scrollY = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    let opacity = 0;
+    if (docHeight > 0) {
+        opacity = Math.min(0.85, scrollY / docHeight * 0.85); // max 0.85 opacity
+    }
+    overlay.style.opacity = opacity;
+});
