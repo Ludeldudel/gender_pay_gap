@@ -1608,7 +1608,7 @@ select.form-control {
 /* Inaktive Segmente: sichtbar, aber dunkel/matt, kein Glow */
 .digit.inactive .segment {
   background: #0f0 !important; /* sehr dunkles Lilac/Schwarz, je nach Farbschema */
-  opacity: 0.35;
+  opacity: 0.15;
   box-shadow: none !important;
   transition: background 0.2s, opacity 0.2s;
 }
