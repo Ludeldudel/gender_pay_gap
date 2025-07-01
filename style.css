@@ -80,6 +80,10 @@
   --color-white: rgb(255, 255, 255);
   --color-red: rgb(255, 55, 55);
 
+  --color-green-rgb: 109, 227, 148;
+  --color-lilac-rgb: 159, 98, 248;
+  --color-red-rgb: 255, 55, 55;
+
   /* Dark mode colors (immer aktiv) */
   --color-background: rgba(31, 33, 33, 1);
   --color-surface: rgba(38, 40, 40, 1);
@@ -91,7 +95,6 @@
   --color-secondary-hover: rgba(119, 124, 124, 0.25);
   --color-secondary-active: rgba(119, 124, 124, 0.3);
   --color-border: rgba(119, 124, 124, 0.3);
-  --color-success: rgba(50, 184, 198, 1);
 
   --color-info: rgba(167, 169, 169, 1);
   --color-focus-ring: rgba(50, 184, 198, 0.4);
@@ -110,11 +113,6 @@
   --select-caret-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23134252' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
   --select-caret-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23f5f5f5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
 
-  /* RGB versions for dark mode */
-  --color-success-rgb: 50, 184, 198;
-  --color-lilac-rgb: 255, 84, 89;
-  --color-warning-rgb: 230, 129, 97;
-  --color-info-rgb: 167, 169, 169;
 
 }
 
@@ -381,7 +379,7 @@ select.form-control {
 .hero-title {
   font-size: clamp(2.5rem, 5vw, 4rem);
   margin-bottom: var(--space-24);
-  background: linear-gradient(135deg, var(--color-green), var(--color-success));
+  background: linear-gradient(135deg, var(--color-green), var(--color-green));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -944,7 +942,7 @@ select.form-control {
 
 .gap-card.unadjusted {
   border-color: var(--color-green);
-  background: rgba(var(--color-success-rgb, 33, 128, 141), 0.1);
+  background: rgba(var(--color-green-rgb, 33, 128, 141), 0.1);
 }
 
 .gap-card.adjusted {
@@ -1059,13 +1057,13 @@ select.form-control {
 }
 
 .country-card.worst {
-  border-color: var(--color-lilac);
-  background: rgba(var(--color-lilac-rgb), 0.1);
+  border-color: var(--color-red);
+  background: rgba(var(--color-red-rgb), 0.1);
 }
 
 .country-card.current {
   border-color: var(--color-lilac);
-  background: rgba(var(--color-warning-rgb), 0.1);
+  background: rgba(var(--color-lilac-rgb), 0.1);
 }
 
 .country-card.average {
@@ -1074,11 +1072,11 @@ select.form-control {
 }
 
 .country-card.best {
-  border-color: var(--color-success);
-  background: rgba(var(--color-success-rgb), 0.1);
+  border-color: var(--color-green);
+  background: rgba(var(--color-green-rgb), 0.1);
 }
 
-.country-name {
+ry-name {
   font-weight: var(--font-weight-bold);
   margin-bottom: var(--space-8);
 }
@@ -1096,7 +1094,7 @@ select.form-control {
 
 /* Iceland Spotlight */
 .iceland-spotlight {
-  background: linear-gradient(135deg, var(--color-success), rgba(var(--color-success-rgb), 0.8));
+  background: linear-gradient(135deg, var(--color-green), rgba(var(--color-green-rgb), 0.8));
   color: white;
   padding: var(--space-32);
   border-radius: var(--radius-lg);
@@ -1226,7 +1224,7 @@ select.form-control {
   content: '✓';
   position: absolute;
   left: 0;
-  color: var(--color-success);
+  color: var(--color-green);
   font-weight: var(--font-weight-bold);
 }
 
