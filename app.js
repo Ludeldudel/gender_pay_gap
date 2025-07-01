@@ -174,9 +174,11 @@ function startLiveCounter() {
         renderSevenSegmentDisplay(displayValue);
     }
     
-    // Update more frequently for smoother animation
     setInterval(updateCounter, 50);
     updateCounter(); // Initial update
+
+    // WICHTIG: Timeout für initiale Skalierung nach dem ersten Rendern
+    setTimeout(scaleCounterToFit, 0);
 }
 
 function renderSevenSegmentDisplay(value) {
@@ -695,3 +697,8 @@ function scaleCounterToFit() {
 
 window.addEventListener('resize', debounce(drawHistoricalChart, 150));
 window.addEventListener('resize', scaleCounterToFit);
+
+// Zusätzlich: Führe die Skalierung nach window.onload nochmal aus
+window.addEventListener('load', () => {
+    scaleCounterToFit();
+});
