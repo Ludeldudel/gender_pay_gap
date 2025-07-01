@@ -309,10 +309,13 @@ function drawHistoricalChart() {
     const chartWidth = width - 2 * padding;
     const chartHeight = height - 2 * padding;
 
+    // Lilac/Green Farbschema
+    const lilac = 'rgb(159, 98, 248)';
+    const green = 'rgb(109, 227, 148)';
     const isDark = document.body.getAttribute('data-color-scheme') === 'dark';
-    const lineColor = isDark ? '#32B8C6' : '#21808D';
-    const textColor = isDark ? '#F5F5F5' : '#134252';
-    const gridColor = isDark ? '#777C7C' : '#5E5240';
+    const lineColor = isDark ? green : lilac;
+    const textColor = isDark ? green : lilac;
+    const gridColor = isDark ? 'rgba(109, 227, 148, 0.3)' : 'rgba(159, 98, 248, 0.3)';
 
     // Precompute points
     const points = dataPoints.map((pt, i) => ({
