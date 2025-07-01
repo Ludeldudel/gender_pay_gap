@@ -465,13 +465,13 @@ function updateCareerPaths(age, gap) {
     const withoutKidsGap = Math.max(baseGap - 5, 5); // Better progression without kids
     
     withKidsPath.innerHTML = `
-        <div style="background: linear-gradient(90deg, var(--color-green) ${100 - withKidsGap}%, var(--color-lilac) ${100 - withKidsGap}%); height: 100%; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; transition: all 0.3s ease;">
+        <div style="background: linear-gradient(90deg, var(--color-lilac) ${100 - withKidsGap}%, var(--color-green) ${100 - withKidsGap}%); height: 100%; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; transition: all 0.3s ease;">
             ${withKidsGap}% Gap
         </div>
     `;
     
     withoutKidsPath.innerHTML = `
-        <div style="background: linear-gradient(90deg, var(--color-green) ${100 - withoutKidsGap}%, var(--color-lilac) ${100 - withoutKidsGap}%); height: 100%; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; transition: all 0.3s ease;">
+        <div style="background: linear-gradient(90deg, var(--color-lilac) ${100 - withoutKidsGap}%, var(--color-green) ${100 - withoutKidsGap}%); height: 100%; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; transition: all 0.3s ease;">
             ${withoutKidsGap}% Gap
         </div>
     `;
