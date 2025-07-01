@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function initializeApp() {
     // Setze Dark/Light Mode nach Systemeinstellung
-    setColorSchemeBySystem();
+    // setColorSchemeBySystem();
 
     // Add intersection observer for animations
     setupIntersectionObserver();
@@ -133,17 +133,17 @@ function setupEventListeners() {
     }, 100);
 
     // System Dark/Light Mode Listener
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', setColorSchemeBySystem);
+    // window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', setColorSchemeBySystem);
 }
 
 // Neue Funktion für automatischen Modus
-function setColorSchemeBySystem() {
-    const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    document.body.setAttribute('data-color-scheme', isDark ? 'dark' : 'light');
-    setTimeout(() => {
-        drawHistoricalChart();
-    }, 150);
-}
+// function setColorSchemeBySystem() {
+//     const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+//     document.body.setAttribute('data-color-scheme', isDark ? 'dark' : 'light');
+//     setTimeout(() => {
+//         drawHistoricalChart();
+//     }, 150);
+// }
 
 // Debounce function to improve performance
 function debounce(func, wait) {
@@ -465,13 +465,13 @@ function updateCareerPaths(age, gap) {
     const withoutKidsGap = Math.max(baseGap - 5, 5); // Better progression without kids
     
     withKidsPath.innerHTML = `
-        <div style="background: linear-gradient(90deg, var(--color-primary) ${100 - withKidsGap}%, var(--color-error) ${100 - withKidsGap}%); height: 100%; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; transition: all 0.3s ease;">
+        <div style="background: linear-gradient(90deg, var(--color-green) ${100 - withKidsGap}%, var(--color-lilac) ${100 - withKidsGap}%); height: 100%; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; transition: all 0.3s ease;">
             ${withKidsGap}% Gap
         </div>
     `;
     
     withoutKidsPath.innerHTML = `
-        <div style="background: linear-gradient(90deg, var(--color-primary) ${100 - withoutKidsGap}%, var(--color-error) ${100 - withoutKidsGap}%); height: 100%; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; transition: all 0.3s ease;">
+        <div style="background: linear-gradient(90deg, var(--color-green) ${100 - withoutKidsGap}%, var(--color-lilac) ${100 - withoutKidsGap}%); height: 100%; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; transition: all 0.3s ease;">
             ${withoutKidsGap}% Gap
         </div>
     `;
@@ -532,7 +532,7 @@ function displayIndustryData() {
                 <span class="industry-gap">${industry.gap}%</span>
             </div>
             <div class="industry-visual">
-                <div class="bar-fill" style="width: ${(industry.gap / 25) * 100}%; background: ${industry.gap > 15 ? 'var(--color-error)' : industry.gap > 10 ? 'var(--color-warning)' : 'var(--color-success)'}; transition: all 0.3s ease;"></div>
+                <div class="bar-fill" style="width: ${(industry.gap / 25) * 100}%; background: ${industry.gap > 15 ? 'var(--color-red)' : 'var(--color-lilac)'}; transition: all 0.3s ease;"></div>
             </div>
         </div>
     `).join('');
