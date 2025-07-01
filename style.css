@@ -1597,3 +1597,30 @@ select.form-control {
   margin: 0;
   display: block;
 }
+
+.digit.inactive .segment.on,
+.digit.inactive .segment {
+  background: #222 !important; /* oder ein sehr dunkles Lilac/Grün, je nach Farbschema */
+  box-shadow: none !important;
+  opacity: 0.3;
+}
+
+/* Inaktive Segmente: sichtbar, aber dunkel/matt, kein Glow */
+.digit.inactive .segment {
+  background: #0f0 !important; /* sehr dunkles Lilac/Schwarz, je nach Farbschema */
+  opacity: 0.35;
+  box-shadow: none !important;
+  transition: background 0.2s, opacity 0.2s;
+}
+
+/* Optional: für noch subtileren Effekt */
+.digit.inactive {
+  filter: none;
+}
+
+/* Inaktive Punkte: gleiche Farbe wie inaktive Segmente */
+.digit.inactive .segment.dot {
+  background: #0f0 !important;
+  opacity: 0.15 !important;
+  box-shadow: none !important;
+}
