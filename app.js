@@ -225,6 +225,9 @@ function renderSevenSegmentDisplay(value) {
     // Euro-Segment
     const euro = container.querySelector('.digit.euro');
     setEuroSegment(euro);
+
+    // Nach dem Rendern:
+    scaleCounterToFit();
 }
 
 function setEuroSegment(el) {
@@ -675,4 +678,20 @@ function formatCurrency(amount) {
     }).format(amount);
 }
 
+function scaleCounterToFit() {
+  const wrapper = document.querySelector('.counter-scale-wrapper');
+  const counter = document.getElementById('liveCounter');
+  if (!wrapper || !counter) return;
+  // Reset scaling
+  counter.style.transform = 'scale(1)';
+  // Berechne, ob der Counter breiter als der Wrapper ist
+  const available = wrapper.clientWidth;
+  const needed = counter.scrollWidth;
+  if (needed > available) {
+    const scale = available / needed;
+    counter.style.transform = `scale(${scale})`;
+  }
+}
+
 window.addEventListener('resize', debounce(drawHistoricalChart, 150));
+window.addEventListener('resize', scaleCounterToFit);

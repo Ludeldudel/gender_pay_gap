@@ -532,6 +532,15 @@ select.form-control {
   text-shadow: 0 0 8px var(--color-error), 0 0 2px #fff;
 }
 
+.counter-scale-wrapper {
+  width: 100%;
+  max-width: 100%;
+  overflow: visible;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 /* Salary Comparison */
 .salary-comparison {
   margin: var(--space-32) 0;
@@ -1508,6 +1517,8 @@ select.form-control {
   padding: 0.3em 0.7em;
   border-radius: 0.3em;
   box-shadow: 0 0 8px #000 inset;
+  transition: transform 0.2s;
+  will-change: transform;
 }
 
 .digit {
