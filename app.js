@@ -29,10 +29,10 @@ const data = {
             {year: 2024, gap: 16}
         ],
         migrationPayGap: [
-            {group: "Deutsche Männer", percentage: 100, color: "#2563eb"},
-            {group: "Deutsche Frauen", percentage: 84, color: "#dc2626"},
-            {group: "Männer mit Migration", percentage: 82, color: "#059669"},
-            {group: "Frauen mit Migration", percentage: 68, color: "#dc2626"}
+            {group: "Deutsche Männer", percentage: 100, color: "#6de394"},
+            {group: "Deutsche Frauen", percentage: 84, color: "#9e62f8"},
+            {group: "Männer mit Migration", percentage: 82, color: "#6de394"},
+            {group: "Frauen mit Migration", percentage: 68, color: "#9e62f8"}
         ],
         ageGaps: [
             {ageGroup: "25-29", gap: 9},

@@ -639,6 +639,14 @@ select.form-control {
   transition: width var(--duration-normal) var(--ease-standard);
 }
 
+.male-bar {
+  background: var(--color-green);
+}
+
+.female-bar {
+  background: var(--color-lilac);
+}
+
 /* Insight Box */
 .insight-box {
   background: rgba(var(--color-primary-rgb, 33, 128, 141), 0.1);
