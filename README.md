@@ -63,7 +63,7 @@ Hochschule für angewandte Wissenschaften - 6. Semester Collaboration Modul
 [] Kernaussagen soll mehr herausstechen
 [x] Dramatisch -> tatsächlich 
 [] Geschlecht -> überarbeiten
-[] Banner mit "Es werden alle Menschen in der Webseite mit inkludiert" aber die Statistiken haben hald nur Mann und Frau
+[x] Banner mit "Es werden alle Menschen in der Webseite mit inkludiert" aber die Statistiken haben hald nur Mann und Frau
 [x] Branchen nur Lilac verwenden
 [] Altersarmut besser forumulieren -> wichites Thema -> besser Formuliert
 [] Altersarmut Hochrechnung checken und einbauen -> vll auch nicht mit einbauen wenn nix mit gender pay gap zu tun
