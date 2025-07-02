@@ -68,4 +68,4 @@ Hochschule für angewandte Wissenschaften - 6. Semester Collaboration Modul
 [] Altersarmut besser forumulieren -> wichites Thema -> besser Formuliert
 [] Altersarmut Hochrechnung checken und einbauen -> vll auch nicht mit einbauen wenn nix mit gender pay gap zu tun
 [] Wirkungkette besser darstellen -> muss man besser verstehen
-[] Counter groß schreiben
+[x] Counter groß schreiben
