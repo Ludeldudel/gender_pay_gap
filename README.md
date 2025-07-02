@@ -56,12 +56,12 @@ Hochschule für angewandte Wissenschaften - 6. Semester Collaboration Modul
 *Hinweis: Dies ist ein Bildungsprojekt zur Sensibilisierung für die Thematik der geschlechterbedingten Lohnunterschiede.*
 
 [x] Jede stunde verlieren Frauen im Vergleich zu Männder ...
-[] Diagramme richtig skalieren
+[x] Diagramme richtig skalieren
 [] Titel soll Prägnanter werden
 [] Farbschema fixen mit lilac -> Frauen und Grün für Männer
-[] Detsche Männer formulierung Checken vll Männer ohne Migrationshintergrund *oder* so
+[x] Detsche Männer formulierung Checken vll Männer ohne Migrationshintergrund *oder* so
 [] Kernaussagen soll mehr herausstechen
-[] Dramatisch -> tatsächlich 
+[x] Dramatisch -> tatsächlich 
 [] Geschlecht -> überarbeiten
 [] Banner mit "Es werden alle Menschen in der Webseite mit inkludiert" aber die Statistiken haben hald nur Mann und Frau
 [] Branchen nur Lilac verwenden
