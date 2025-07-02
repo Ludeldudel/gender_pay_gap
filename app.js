@@ -1,4 +1,14 @@
-// Data from the application
+// Gender Pay Gap Deutschland - Interactive Data Visualization
+// Main application logic for the interactive website
+//
+// Structure:
+// 1. Data definitions and global state
+// 2. Initialization functions
+// 3. Utility functions
+// 4. Live counter and seven segment display
+// 5. Interactive components (sliders, calculators, charts)
+// 6. Event handling and animations
+// 7. Sharing and social features
 const data = {
     genderPayGap: {
         germany2024: {
@@ -63,13 +73,16 @@ const data = {
     }
 };
 
-// Global state - removed all gamification elements
+// Global state
 let appState = {
-    visitStartTime: Date.now(),
-    darkMode: false
+    visitStartTime: Date.now()
 };
 
 let historicalChartAnimationFrame = null;
+
+// ============================================================================
+// INITIALIZATION
+// ============================================================================
 
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
@@ -78,13 +91,9 @@ document.addEventListener('DOMContentLoaded', function() {
     startLiveCounter();
     drawHistoricalChart();
     displayIndustryData();
-    setupPersonalCalculator();
 });
 
 function initializeApp() {
-    // Setze Dark/Light Mode nach Systemeinstellung
-    // setColorSchemeBySystem();
-
     // Add intersection observer for animations
     setupIntersectionObserver();
 
@@ -95,8 +104,6 @@ function initializeApp() {
 }
 
 function setupEventListeners() {
-    // Entferne Dark Mode Toggle Event Listener komplett
-
     // Salary slider in hero - improved responsiveness
     const salarySlider = document.getElementById('salarySlider');
     if (salarySlider) {
@@ -131,19 +138,11 @@ function setupEventListeners() {
             bar.addEventListener('mouseleave', hideIndustryTooltip);
         });
     }, 100);
-
-    // System Dark/Light Mode Listener
-    // window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', setColorSchemeBySystem);
 }
 
-// Neue Funktion für automatischen Modus
-// function setColorSchemeBySystem() {
-//     const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-//     document.body.setAttribute('data-color-scheme', isDark ? 'dark' : 'light');
-//     setTimeout(() => {
-//         drawHistoricalChart();
-//     }, 150);
-// }
+// ============================================================================
+// UTILITY FUNCTIONS
+// ============================================================================
 
 // Debounce function to improve performance
 function debounce(func, wait) {
@@ -157,6 +156,10 @@ function debounce(func, wait) {
         timeout = setTimeout(later, wait);
     };
 }
+
+// ============================================================================
+// LIVE COUNTER & SEVEN SEGMENT DISPLAY
+// ============================================================================
 
 function startLiveCounter() {
     const counterElement = document.getElementById('liveCounter');
@@ -269,6 +272,10 @@ function updateCounter() {
     const displayValue = Math.round(totalLoss).toLocaleString('de-DE');
     renderSevenSegmentDisplay(displayValue);
 }
+
+// ============================================================================
+// INTERACTIVE COMPONENTS
+// ============================================================================
 
 function updateSalaryGap() {
     const slider = document.getElementById('salarySlider');
@@ -603,17 +610,6 @@ function setupIntersectionObserver() {
     // Observe all sections
     document.querySelectorAll('.section').forEach(section => {
         observer.observe(section);
-    });
-}
-
-function scrollToNext() {
-    const currentScroll = window.pageYOffset;
-    const windowHeight = window.innerHeight;
-    const targetScroll = currentScroll + windowHeight;
-    
-    window.scrollTo({
-        top: targetScroll,
-        behavior: 'smooth'
     });
 }
 
