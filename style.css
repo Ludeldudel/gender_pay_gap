@@ -411,26 +411,44 @@ select.form-control {
 .salary-label {
   min-width: 80px;
   font-weight: var(--font-weight-medium);
+  flex-shrink: 0;
 }
 
 .salary-amount {
   min-width: 100px;
   font-weight: var(--font-weight-bold);
   font-family: var(--font-family-mono);
+  flex-shrink: 0;
 }
 
 .salary-visual {
   height: 20px;
   border-radius: var(--radius-sm);
   transition: width var(--duration-normal) var(--ease-standard);
+  min-width: 0;
+  flex: 1 1 auto;
+  position: relative;
+  background: var(--color-secondary);
 }
 
-.male-salary .salary-visual {
+.salary-visual::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  border-radius: var(--radius-sm);
+  transition: width var(--duration-normal) var(--ease-standard);
+}
+
+.male-salary .salary-visual::after {
   background: var(--color-green);
+  width: 100%;
 }
 
-.female-salary .salary-visual {
+.female-salary .salary-visual::after {
   background: var(--color-lilac);
+  width: 84.4%;
 }
 
 /* Interactive Slider */
