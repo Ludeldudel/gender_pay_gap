@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function initializeApp() {
     // Setze Dark/Light Mode nach Systemeinstellung
-    setColorSchemeBySystem();
+    // setColorSchemeBySystem();
 
     // Add intersection observer for animations
     setupIntersectionObserver();
@@ -133,17 +133,17 @@ function setupEventListeners() {
     }, 100);
 
     // System Dark/Light Mode Listener
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', setColorSchemeBySystem);
+    // window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', setColorSchemeBySystem);
 }
 
 // Neue Funktion für automatischen Modus
-function setColorSchemeBySystem() {
-    const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    document.body.setAttribute('data-color-scheme', isDark ? 'dark' : 'light');
-    setTimeout(() => {
-        drawHistoricalChart();
-    }, 150);
-}
+// function setColorSchemeBySystem() {
+//     const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+//     document.body.setAttribute('data-color-scheme', isDark ? 'dark' : 'light');
+//     setTimeout(() => {
+//         drawHistoricalChart();
+//     }, 150);
+// }
 
 // Debounce function to improve performance
 function debounce(func, wait) {
@@ -186,34 +186,35 @@ function renderSevenSegmentDisplay(value) {
     if (!container) return;
 
     // Wert als reine Ziffern, auf 10 Stellen auffüllen
-    let str = value.replace(/[^\d]/g, '').padStart(10, '0');
+    let str = value.replace(/[^\d]/g, '');
+    let padded = str.padStart(10, '0');
+
+    // Berechne, wie viele führende Stellen inaktiv sind
+    const firstActive = 10 - str.length;
 
     // Tausenderpunkte berechnen (bei 10 Stellen: 1.000.000.000)
-    // Wir bauen das Array von rechts nach links und fügen nach jedem 3. Ziffer einen Punkt ein (außer am Ende)
     let segments = [];
-    for (let i = 0; i < str.length; i++) {
-        // Ziffer
-        segments.push({ type: 'digit', value: str[str.length - 1 - i] });
+    for (let i = 0; i < padded.length; i++) {
+        const isInactive = i < firstActive;
+        segments.push({ 
+            type: 'digit', 
+            value: padded[i], 
+            inactive: isInactive
+        });
         // Punkt nach jedem dritten Ziffer, aber nicht am Ende
-        if ((i + 1) % 3 === 0 && i !== str.length - 1) {
-            segments.push({ type: 'dot' });
+        if ((padded.length - i - 1) % 3 === 0 && i !== padded.length - 1) {
+            // Punkt bekommt .inactive, wenn die Ziffer davor inaktiv ist
+            segments.push({ type: 'dot', inactive: isInactive });
         }
     }
-    segments = segments.reverse();
-
-    // Eurozeichen am Ende
-    // segments.push({ type: 'euro' });
 
     // HTML generieren
     container.innerHTML = segments.map(seg => {
         if (seg.type === 'digit') {
-            return `<span class="digit"></span>`;
+            return `<span class="digit${seg.inactive ? ' inactive' : ''}"></span>`;
         }
         if (seg.type === 'dot') {
-            return `<span class="digit dot"><span class="segment dot on"></span></span>`;
-        }
-        if (seg.type === 'euro') {
-            return `<span class="digit euro"></span>`;
+            return `<span class="digit dot${seg.inactive ? ' inactive' : ''}"><span class="segment dot on"></span></span>`;
         }
         return '';
     }).join('');
@@ -222,29 +223,14 @@ function renderSevenSegmentDisplay(value) {
     let digitIndex = 0;
     const digitElements = container.querySelectorAll('.digit:not(.dot):not(.euro)');
     for (let i = 0; i < digitElements.length; i++) {
-        setSevenSegment(digitElements[i], str[i]);
+        setSevenSegment(digitElements[i], padded[i], i < firstActive);
     }
-    // Euro-Segment
-    const euro = container.querySelector('.digit.euro');
-    setEuroSegment(euro);
 
     // Nach dem Rendern:
     scaleCounterToFit();
 }
 
-function setEuroSegment(el) {
-    el.innerHTML = '';
-    // 7 Segmente für ein stilisiertes "E" (ähnlich wie ein Eurozeichen)
-    const segs = ['e1','e2','e3','e4','e5','e6', 'e7'];
-    // Alle Segmente "on" für ein Euro-ähnliches Segment
-    for (let i = 0; i < segs.length; i++) {
-        const seg = document.createElement('div');
-        seg.className = 'euro-segment ' + segs[i] + ' on';
-        el.appendChild(seg);
-    }
-}
-
-function setSevenSegment(el, char) {
+function setSevenSegment(el, char, inactive = false) {
     // Segment-Mapping für 0-9
     const map = {
         '0': [1,1,1,1,1,1,0],
@@ -258,14 +244,18 @@ function setSevenSegment(el, char) {
         '8': [1,1,1,1,1,1,1],
         '9': [1,1,1,1,0,1,1]
     };
-    // Entferne alte Segmente
     el.innerHTML = '';
     const segs = ['a','b','c','d','e','f','g'];
-    const val = map[char] || [0,0,0,0,0,0,0];
+    let val = map[char] || [0,0,0,0,0,0,0];
+    // Wenn inaktiv: alle Segmente "aus" (kein .on)
+    if (inactive) val = [0,0,0,0,0,0,0];
     for (let i = 0; i < 7; i++) {
-        const seg = document.createElement('div');
-        seg.className = 'segment ' + segs[i] + (val[i] ? ' on' : '');
-        el.appendChild(seg);
+        el.appendChild(Object.assign(
+            document.createElement('div'),
+            {
+                className: 'segment ' + segs[i] + (val[i] ? ' on' : '') + (inactive ? ' inactive' : '')
+            }
+        ));
     }
 }
 
@@ -319,10 +309,13 @@ function drawHistoricalChart() {
     const chartWidth = width - 2 * padding;
     const chartHeight = height - 2 * padding;
 
+    // Lilac/Green Farbschema
+    const lilac = 'rgb(159, 98, 248)';
+    const green = 'rgb(109, 227, 148)';
     const isDark = document.body.getAttribute('data-color-scheme') === 'dark';
-    const lineColor = isDark ? '#32B8C6' : '#21808D';
-    const textColor = isDark ? '#F5F5F5' : '#134252';
-    const gridColor = isDark ? '#777C7C' : '#5E5240';
+    const lineColor = isDark ? green : lilac;
+    const textColor = isDark ? green : lilac;
+    const gridColor = isDark ? 'rgba(109, 227, 148, 0.3)' : 'rgba(159, 98, 248, 0.3)';
 
     // Precompute points
     const points = dataPoints.map((pt, i) => ({
@@ -475,13 +468,13 @@ function updateCareerPaths(age, gap) {
     const withoutKidsGap = Math.max(baseGap - 5, 5); // Better progression without kids
     
     withKidsPath.innerHTML = `
-        <div style="background: linear-gradient(90deg, var(--color-primary) ${100 - withKidsGap}%, var(--color-error) ${100 - withKidsGap}%); height: 100%; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; transition: all 0.3s ease;">
+        <div style="background: linear-gradient(90deg, var(--color-lilac) ${100 - withKidsGap}%, var(--color-green) ${100 - withKidsGap}%); height: 100%; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; transition: all 0.3s ease;">
             ${withKidsGap}% Gap
         </div>
     `;
     
     withoutKidsPath.innerHTML = `
-        <div style="background: linear-gradient(90deg, var(--color-primary) ${100 - withoutKidsGap}%, var(--color-error) ${100 - withoutKidsGap}%); height: 100%; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; transition: all 0.3s ease;">
+        <div style="background: linear-gradient(90deg, var(--color-lilac) ${100 - withoutKidsGap}%, var(--color-green) ${100 - withoutKidsGap}%); height: 100%; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; transition: all 0.3s ease;">
             ${withoutKidsGap}% Gap
         </div>
     `;
@@ -542,7 +535,7 @@ function displayIndustryData() {
                 <span class="industry-gap">${industry.gap}%</span>
             </div>
             <div class="industry-visual">
-                <div class="bar-fill" style="width: ${(industry.gap / 25) * 100}%; background: ${industry.gap > 15 ? 'var(--color-error)' : industry.gap > 10 ? 'var(--color-warning)' : 'var(--color-success)'}; transition: all 0.3s ease;"></div>
+                <div class="bar-fill" style="width: ${(industry.gap / 25) * 100}%; background: ${industry.gap > 15 ? 'var(--color-red)' : 'var(--color-lilac)'}; transition: all 0.3s ease;"></div>
             </div>
         </div>
     `).join('');
