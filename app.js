@@ -542,7 +542,7 @@ function displayIndustryData() {
                 <span class="industry-gap">${industry.gap}%</span>
             </div>
             <div class="industry-visual">
-                <div class="bar-fill" style="width: ${(industry.gap / 25) * 100}%; background: ${industry.gap > 15 ? 'var(--color-red)' : 'var(--color-lilac)'}; transition: all 0.3s ease;"></div>
+                <div class="bar-fill" style="width: ${(industry.gap / 25) * 100}%; background: var(--color-lilac); transition: all 0.3s ease;"></div>
             </div>
         </div>
     `).join('');
