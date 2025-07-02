@@ -55,7 +55,7 @@ Hochschule für angewandte Wissenschaften - 6. Semester Collaboration Modul
 
 *Hinweis: Dies ist ein Bildungsprojekt zur Sensibilisierung für die Thematik der geschlechterbedingten Lohnunterschiede.*
 
-[] Jede stunde verlieren Frauen im Vergleich zu Männder ...
+[x] Jede stunde verlieren Frauen im Vergleich zu Männder ...
 [] Diagramme richtig skalieren
 [] Titel soll Prägnanter werden
 [] Farbschema fixen mit lilac -> Frauen und Grün für Männer

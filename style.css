@@ -425,10 +425,11 @@ select.form-control {
   height: 20px;
   border-radius: var(--radius-sm);
   transition: width var(--duration-normal) var(--ease-standard);
-  min-width: 0;
+  min-width: 80px;
   flex: 1 1 auto;
   position: relative;
   background: var(--color-secondary);
+  overflow: hidden;
 }
 
 .salary-visual::after {
@@ -439,6 +440,11 @@ select.form-control {
   height: 100%;
   border-radius: var(--radius-sm);
   transition: width var(--duration-normal) var(--ease-standard);
+  min-width: 2px; /* Ensure minimum visibility */
+}
+
+.male-salary .salary-visual {
+  background: var(--color-green);
 }
 
 .male-salary .salary-visual::after {
@@ -446,9 +452,53 @@ select.form-control {
   width: 100%;
 }
 
+.female-salary .salary-visual {
+  background: var(--color-secondary);
+}
+
 .female-salary .salary-visual::after {
   background: var(--color-lilac);
   width: 84.4%;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+  .salary-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-12);
+  }
+  
+  .salary-label,
+  .salary-amount {
+    min-width: auto;
+    width: 100%;
+  }
+  
+  .salary-visual {
+    width: 100%;
+    min-width: 250px;
+    height: 28px;
+  }
+  
+  .salary-visual::after {
+    min-width: 10px; /* Ensure visibility on mobile */
+  }
+}
+
+@media (max-width: 480px) {
+  .salary-comparison {
+    margin: var(--space-24) 0;
+  }
+  
+  .salary-bar {
+    padding: var(--space-12);
+  }
+  
+  .salary-visual {
+    min-width: 200px;
+    height: 32px;
+  }
 }
 
 /* Interactive Slider */
