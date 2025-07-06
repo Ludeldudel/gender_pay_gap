@@ -45,7 +45,7 @@ void setup() {
   Serial.begin(115200);
   Serial.println("Starting BLE...");
 
-  BLEDevice::init("ESP32-BLE-Start");
+  BLEDevice::init("7SegmentDisplay");
 
   pServer = BLEDevice::createServer();
   pServer->setCallbacks(new ServerCallbacks());
