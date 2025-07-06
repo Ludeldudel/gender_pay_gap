@@ -138,6 +138,12 @@ function setupEventListeners() {
             bar.addEventListener('mouseleave', hideIndustryTooltip);
         });
     }, 100);
+
+    // WebBluetooth functionality for ESP32 connection
+    const startCounterBtn = document.getElementById('startCounterBtn');
+    if (startCounterBtn) {
+        startCounterBtn.addEventListener('click', connectAndSendStart);
+    }
 }
 
 // ============================================================================
@@ -690,4 +696,72 @@ window.addEventListener('resize', scaleCounterToFit);
 // Zusätzlich: Führe die Skalierung nach window.onload nochmal aus
 window.addEventListener('load', () => {
     scaleCounterToFit();
+});
+
+// WebBluetooth functionality for ESP32 connection
+const BLUETOOTH_CONFIG = {
+    SERVICE_UUID: '12345678-1234-1234-1234-1234567890ab',
+    CHARACTERISTIC_UUID: 'abcd1234-5678-90ab-cdef-1234567890ab'
+};
+
+let bleDevice = null;
+let bleCharacteristic = null;
+
+async function connectAndSendStart() {
+    const statusElement = document.getElementById('bluetoothStatus');
+    const buttonElement = document.getElementById('startCounterBtn');
+    
+    try {
+        statusElement.textContent = 'Requesting BLE device...';
+        buttonElement.disabled = true;
+        
+        bleDevice = await navigator.bluetooth.requestDevice({
+            filters: [{ namePrefix: 'ESP32' }],
+            optionalServices: [BLUETOOTH_CONFIG.SERVICE_UUID]
+        });
+
+        statusElement.textContent = 'Connecting...';
+        const server = await bleDevice.gatt.connect();
+        const service = await server.getPrimaryService(BLUETOOTH_CONFIG.SERVICE_UUID);
+        bleCharacteristic = await service.getCharacteristic(BLUETOOTH_CONFIG.CHARACTERISTIC_UUID);
+
+        statusElement.textContent = 'Connected! Sending start signal...';
+
+        const startSignal = new Uint8Array([1]);
+        await bleCharacteristic.writeValue(startSignal);
+
+        statusElement.textContent = 'Counter started via Bluetooth!';
+        buttonElement.textContent = 'Counter Started';
+        
+        // Optional: Start the visual counter as well
+        startLiveCounter();
+        
+    } catch (error) {
+        console.error('Bluetooth error:', error);
+        statusElement.textContent = 'Error: ' + error.message;
+        buttonElement.disabled = false;
+    }
+}
+
+// Initialize Bluetooth functionality when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    const startCounterBtn = document.getElementById('startCounterBtn');
+    if (startCounterBtn) {
+        startCounterBtn.addEventListener('click', connectAndSendStart);
+    }
+    
+    // Check if Web Bluetooth is supported
+    if (!navigator.bluetooth) {
+        const statusElement = document.getElementById('bluetoothStatus');
+        if (statusElement) {
+            statusElement.textContent = 'Web Bluetooth not supported in this browser';
+            statusElement.style.color = 'var(--color-red)';
+        }
+        
+        const buttonElement = document.getElementById('startCounterBtn');
+        if (buttonElement) {
+            buttonElement.disabled = true;
+            buttonElement.textContent = 'Bluetooth Not Supported';
+        }
+    }
 });

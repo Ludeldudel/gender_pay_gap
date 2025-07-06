@@ -390,6 +390,33 @@ select.form-control {
   align-items: center;
 }
 
+.start-counter-btn {
+  margin-top: var(--space-20);
+  padding: var(--space-12) var(--space-24);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+  border-radius: var(--radius-base);
+  border: 2px solid var(--color-lilac);
+  background: transparent;
+  color: var(--color-lilac);
+  transition: all var(--duration-fast) var(--ease-standard);
+  cursor: pointer;
+}
+
+.start-counter-btn:hover {
+  background: var(--color-lilac);
+  color: var(--color-background);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(var(--color-lilac-rgb), 0.3);
+}
+
+.bluetooth-status {
+  margin-top: var(--space-12);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  text-align: center;
+}
+
 /* Salary Comparison */
 .salary-comparison {
   margin: var(--space-32) 0;
