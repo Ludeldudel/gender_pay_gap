@@ -519,7 +519,7 @@ function updatePurchaseOptions(amount) {
         {item: 'Haus-Anzahlung', value: Math.min(amount, 200000).toLocaleString('de-DE') + '€'},
         {item: 'Neuwagen', value: Math.round(amount / 40000) + 'x'},
         {item: 'Studienfinanzierungen', value: Math.round(amount / 32000) + 'x'},
-        {item: 'Extra Rente pro Monat', value: extraRente.toLocaleString('de-DE') + '€'}
+        // {item: 'Extra Rente pro Monat', value: extraRente.toLocaleString('de-DE') + '€'}
     ];
     
     purchaseOptions.innerHTML = options.map(option => `

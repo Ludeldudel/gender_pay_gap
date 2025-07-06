@@ -64,11 +64,11 @@ Hochschule für angewandte Wissenschaften - 6. Semester Collaboration Modul
 - [x] Deutsche Männer Formulierung checken (evtl. "Männer ohne Migrationshintergrund")
 - [ ] Kernaussagen sollen mehr herausstechen
 - [x] Dramatisch → tatsächlich
-- [ ] Geschlecht → überarbeiten
+- [x] Geschlecht → überarbeiten
 - [x] Banner mit "Es werden alle Menschen in der Website inkludiert", aber die Statistiken haben nur Mann und Frau
 - [x] Branchen nur Lilac verwenden
 - [x] Altersarmut besser formulieren → wichtiges Thema → besser formuliert
 - [x] Altersarmut Hochrechnung checken und einbauen → evtl. auch nicht einbauen wenn nichts mit Gender Pay Gap zu tun
-- [ ] Wirkungskette besser darstellen → muss man besser verstehen
+- [x] Wirkungskette besser darstellen → muss man besser verstehen
 - [x] Counter groß schreiben
-- [ ] Rentenhochrechnung entfernen
+- [x] Rentenhochrechnung entfernen
