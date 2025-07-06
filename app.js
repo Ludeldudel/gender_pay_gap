@@ -167,9 +167,16 @@ function debounce(func, wait) {
 // LIVE COUNTER & SEVEN SEGMENT DISPLAY
 // ============================================================================
 
+let counterInterval = null; // Global variable to track the counter interval
+
 function startLiveCounter() {
     const counterElement = document.getElementById('liveCounter');
     if (!counterElement) return;
+    
+    // Clear any existing interval to prevent multiple counters running
+    if (counterInterval) {
+        clearInterval(counterInterval);
+    }
     
     const startTime = Date.now();
     
@@ -183,7 +190,7 @@ function startLiveCounter() {
         renderSevenSegmentDisplay(displayValue);
     }
     
-    setInterval(updateCounter, 50);
+    counterInterval = setInterval(updateCounter, 50);
     updateCounter(); // Initial update
 
     // WICHTIG: Timeout für initiale Skalierung nach dem ersten Rendern
@@ -733,8 +740,7 @@ async function connectAndSendStart() {
         statusElement.textContent = 'Counter started via Bluetooth!';
         buttonElement.textContent = 'Counter Started';
         
-        // Optional: Start the visual counter as well
-        startLiveCounter();
+        // Note: Visual counter is already running from page load
         
     } catch (error) {
         console.error('Bluetooth error:', error);
