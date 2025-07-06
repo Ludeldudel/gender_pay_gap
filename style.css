@@ -972,13 +972,13 @@ select.form-control {
 }
 
 .gap-card.unadjusted {
-  border-color: var(--color-green);
-  background: rgba(var(--color-green-rgb, 33, 128, 141), 0.1);
+  border-color: var(--color-lilac);
+  background: rgba(var(--color-lilac-rgb), 0.1);
 }
 
 .gap-card.adjusted {
   border-color: var(--color-lilac);
-  background: rgba(var(--color-warning-rgb), 0.1);
+  background: rgba(var(--color-lilac-rgb), 0.1);
 }
 
 .gap-visual {
