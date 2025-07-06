@@ -55,17 +55,20 @@ Hochschule für angewandte Wissenschaften - 6. Semester Collaboration Modul
 
 *Hinweis: Dies ist ein Bildungsprojekt zur Sensibilisierung für die Thematik der geschlechterbedingten Lohnunterschiede.*
 
-[x] Jede stunde verlieren Frauen im Vergleich zu Männder ...
-[x] Diagramme richtig skalieren
-[] Titel soll Prägnanter werden
-[x] Farbschema fixen mit lilac -> Frauen und Grün für Männer
-[x] Detsche Männer formulierung Checken vll Männer ohne Migrationshintergrund *oder* so
-[] Kernaussagen soll mehr herausstechen
-[x] Dramatisch -> tatsächlich 
-[] Geschlecht -> überarbeiten
-[x] Banner mit "Es werden alle Menschen in der Webseite mit inkludiert" aber die Statistiken haben hald nur Mann und Frau
-[x] Branchen nur Lilac verwenden
-[x] Altersarmut besser forumulieren -> wichites Thema -> besser Formuliert
-[] Altersarmut Hochrechnung checken und einbauen -> vll auch nicht mit einbauen wenn nix mit gender pay gap zu tun
-[] Wirkungkette besser darstellen -> muss man besser verstehen
-[x] Counter groß schreiben
+## To-Do Liste
+
+- [x] Jede Stunde verlieren Frauen im Vergleich zu Männern...
+- [x] Diagramme richtig skalieren
+- [ ] Titel soll prägnanter werden
+- [x] Farbschema fixen mit Lilac → Frauen und Grün für Männer
+- [x] Deutsche Männer Formulierung checken (evtl. "Männer ohne Migrationshintergrund")
+- [ ] Kernaussagen sollen mehr herausstechen
+- [x] Dramatisch → tatsächlich
+- [ ] Geschlecht → überarbeiten
+- [x] Banner mit "Es werden alle Menschen in der Website inkludiert", aber die Statistiken haben nur Mann und Frau
+- [x] Branchen nur Lilac verwenden
+- [x] Altersarmut besser formulieren → wichtiges Thema → besser formuliert
+- [x] Altersarmut Hochrechnung checken und einbauen → evtl. auch nicht einbauen wenn nichts mit Gender Pay Gap zu tun
+- [ ] Wirkungskette besser darstellen → muss man besser verstehen
+- [x] Counter groß schreiben
+- [ ] Rentenhochrechnung entfernen
