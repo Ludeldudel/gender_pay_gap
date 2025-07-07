@@ -32,8 +32,7 @@ class StartCommandCallback : public BLECharacteristicCallbacks {
     if (length > 0 && data[0] == 1) {
       Serial.println("Start command received!");
       // Add your custom logic here
-      // reset_seven_segment_display();
-      // start_seven_segment_display();
+      // the script should start the 7-segment display logic
     } else if (length > 0) {
       Serial.print("Received other value: ");
       Serial.println(data[0]);
