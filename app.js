@@ -321,8 +321,8 @@ function drawHistoricalChart() {
     const green = 'rgb(109, 227, 148)';
     const isDark = document.body.getAttribute('data-color-scheme') === 'dark';
     const lineColor = isDark ? green : lilac;
-    const textColor = isDark ? green : lilac;
-    const gridColor = isDark ? 'rgba(109, 227, 148, 0.3)' : 'rgba(159, 98, 248, 0.3)';
+    const textColor = 'rgba(109, 227, 148, 0.8)'; // More transparent green for text/scales
+    const gridColor = 'rgba(109, 227, 148, 0.3)'; // More transparent green for grid lines
 
     // Precompute points
     const points = dataPoints.map((pt, i) => ({
@@ -347,6 +347,8 @@ function drawHistoricalChart() {
         ctx.strokeStyle = gridColor;
         ctx.fillStyle = textColor;
         ctx.font = '12px Arial';
+        
+        // Draw horizontal grid lines (for y-axis values)
         for (let i = 0; i <= 5; i++) {
             const y = padding + (i * chartHeight / 5);
             const value = 25 - (i * 5);
@@ -356,7 +358,8 @@ function drawHistoricalChart() {
             ctx.stroke();
             ctx.fillText(`${value}%`, 10, y + 4);
         }
-        // Draw year labels
+        
+        // Draw year labels (without vertical lines)
         for (let i = 0; i < points.length; i++) {
             ctx.fillText(points[i].year, points[i].x - 15, height - 10);
         }
@@ -392,7 +395,7 @@ function drawHistoricalChart() {
             ctx.beginPath();
             ctx.arc(points[i].x, points[i].y, 5, 0, 2 * Math.PI);
             ctx.fill();
-            ctx.fillStyle = textColor;
+            ctx.fillStyle = lineColor; // Use line color (lilac) for data point numbers
             ctx.fillText(`${points[i].gap}%`, points[i].x - 8, points[i].y - 10);
             ctx.fillStyle = lineColor;
         }
@@ -410,7 +413,7 @@ function drawHistoricalChart() {
                 ctx.beginPath();
                 ctx.arc(points[i].x, points[i].y, 5, 0, 2 * Math.PI);
                 ctx.fill();
-                ctx.fillStyle = textColor;
+                ctx.fillStyle = lineColor; // Use line color (lilac) for data point numbers
                 ctx.fillText(`${points[i].gap}%`, points[i].x - 8, points[i].y - 10);
                 ctx.fillStyle = lineColor;
             }
