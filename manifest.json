@@ -2,7 +2,7 @@
   "name": "Gender Pay Gap Deutschland",
   "short_name": "Gender Pay Gap",
   "description": "Interaktive Analyse der geschlechterbedingten Lohnlücke in Deutschland",
-  "start_url": "/",
+  "start_url": "/gender_pay_gap/",
   "display": "standalone",
   "background_color": "#1f2121",
   "theme_color": "#9f62f8",
