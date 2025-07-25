@@ -1,0 +1,24 @@
+<!-- Simple SVG icon for the Gender Pay Gap app -->
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="512" height="512" rx="64" fill="#1f2121"/>
+  
+  <!-- Main chart bars representing pay gap -->
+  <rect x="80" y="180" width="120" height="200" rx="8" fill="#6de394"/>
+  <rect x="312" y="240" width="120" height="140" rx="8" fill="#9f62f8"/>
+  
+  <!-- Percentage symbols -->
+  <text x="140" y="150" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="#6de394" text-anchor="middle">100%</text>
+  <text x="372" y="210" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="#9f62f8" text-anchor="middle">84%</text>
+  
+  <!-- Gender symbols -->
+  <circle cx="140" cy="420" r="20" fill="none" stroke="#6de394" stroke-width="4"/>
+  <path d="M140 440 L140 460 M125 450 L155 450" stroke="#6de394" stroke-width="4" stroke-linecap="round"/>
+  
+  <circle cx="372" cy="420" r="20" fill="none" stroke="#9f62f8" stroke-width="4"/>
+  <path d="M372 440 L372 460 M372 400 L382 390 M375 397 L382 390 M382 390 L382 397" stroke="#9f62f8" stroke-width="4" stroke-linecap="round"/>
+  
+  <!-- Title/Logo text -->
+  <text x="256" y="80" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#ffffff" text-anchor="middle">Gender Pay Gap</text>
+  <text x="256" y="110" font-family="Arial, sans-serif" font-size="20" fill="#a7a9a9" text-anchor="middle">Deutschland</text>
+</svg>

@@ -1416,6 +1416,220 @@ ry-name {
   display: block !important;
 }
 
+/* PWA Install Prompt */
+.install-prompt {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--color-surface);
+  border-top: 2px solid var(--color-green);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  transform: translateY(100%);
+  transition: transform var(--duration-normal) var(--ease-standard);
+  backdrop-filter: blur(10px);
+}
+
+.install-prompt:not(.hidden) {
+  transform: translateY(0);
+}
+
+.install-content {
+  padding: var(--space-24);
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.install-content h3 {
+  margin-bottom: var(--space-12);
+  color: var(--color-green);
+}
+
+.install-content p {
+  margin-bottom: var(--space-20);
+  color: var(--color-text-secondary);
+}
+
+.install-buttons {
+  display: flex;
+  gap: var(--space-12);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.install-buttons .btn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  min-width: 120px;
+}
+
+/* PWA-specific styles */
+.pwa-installed .install-prompt {
+  display: none !important;
+}
+
+/* Offline indicator */
+.app-offline::before {
+  content: 'Offline-Modus';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: var(--color-red);
+  color: white;
+  text-align: center;
+  padding: var(--space-8);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  z-index: 1001;
+}
+
+.app-offline body {
+  padding-top: 40px;
+}
+
+/* Touch optimizations for mobile */
+@media (max-width: 768px) {
+  /* Increase touch targets */
+  .btn {
+    min-height: 44px;
+    min-width: 44px;
+    padding: var(--space-12) var(--space-20);
+  }
+  
+  .salary-slider,
+  .age-slider {
+    height: 44px;
+    padding: var(--space-8);
+  }
+  
+  .salary-slider::-webkit-slider-thumb,
+  .age-slider::-webkit-slider-thumb {
+    width: 44px;
+    height: 44px;
+  }
+  
+  .salary-slider::-moz-range-thumb,
+  .age-slider::-moz-range-thumb {
+    width: 44px;
+    height: 44px;
+  }
+  
+  /* Better spacing for mobile */
+  .section {
+    padding: var(--space-24) 0;
+  }
+  
+  .hero-section {
+    min-height: 100vh;
+    min-height: 100svh; /* Safe area viewport height */
+  }
+  
+  /* Install prompt mobile optimizations */
+  .install-prompt {
+    border-radius: var(--space-16) var(--space-16) 0 0;
+  }
+  
+  .install-content {
+    padding: var(--space-20);
+  }
+  
+  .install-buttons {
+    flex-direction: column;
+  }
+  
+  .install-buttons .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* iOS Safari specific fixes */
+@supports (-webkit-touch-callout: none) {
+  .hero-section {
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+  }
+  
+  /* Fix for iOS viewport units */
+  html {
+    height: -webkit-fill-available;
+  }
+  
+  body {
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+  }
+}
+
+/* Improve scrolling performance on mobile */
+* {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Better focus styles for keyboard navigation */
+*:focus-visible {
+  outline: 2px solid var(--color-green);
+  outline-offset: 2px;
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .seven-segment {
+    transition: none !important;
+  }
+  
+  .animate-in {
+    animation: none !important;
+  }
+}
+
+/* Dark mode support (system preference) */
+@media (prefers-color-scheme: light) {
+  /* If you want to support light mode in the future, add styles here */
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --color-border: #ffffff;
+    --color-text: #ffffff;
+    --color-background: #000000;
+    --color-surface: #1a1a1a;
+  }
+}
+
+/* Print styles */
+@media print {
+  .install-prompt,
+  .live-counter-container,
+  .btn,
+  .interactive-slider-container {
+    display: none !important;
+  }
+  
+  .section {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  
+  .hero-section {
+    min-height: auto;
+  }
+}
+
 @font-face {
   font-family: 'FKGroteskNeue';
   src: url('https://r2cdn.perplexity.ai/fonts/FKGroteskNeue.woff2')

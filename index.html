@@ -2,8 +2,50 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Gender Pay Gap Deutschland - Interaktive Analyse</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="description" content="Interaktive Analyse der geschlechterbedingten Lohnlücke in Deutschland mit Live-Counter, persönlichem Rechner und Datenvisualisierungen.">
+    <meta name="keywords" content="Gender Pay Gap, Lohnlücke, Deutschland, Gleichberechtigung, Statistik">
+    <meta name="author" content="Gender Pay Gap App">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Mobile Web App Meta Tags -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Gender Pay Gap">
+    <meta name="msapplication-TileColor" content="#9f62f8">
+    <meta name="theme-color" content="#9f62f8">
+    
+    <!-- App Icons -->
+    <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/icon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="icons/icon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="icons/icon-180x180.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="icons/icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="icons/icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="icons/icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="icons/icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="icons/icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="icons/icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="icons/icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="icons/icon-57x57.png">
+    
+    <!-- Microsoft Tiles -->
+    <meta name="msapplication-TileImage" content="icons/icon-144x144.png">
+    <meta name="msapplication-config" content="browserconfig.xml">
+    
+    <!-- Touch and Interaction -->
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="address=no">
+    
+    <!-- Security -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
     <link rel="stylesheet" href="style.css">
 
 </head>
@@ -473,6 +515,140 @@
         </div>
     </footer>
 
+    <!-- PWA Install Button -->
+    <div id="installPrompt" class="install-prompt hidden">
+        <div class="install-content">
+            <h3>Als App installieren</h3>
+            <p>Installieren Sie die Gender Pay Gap App für eine bessere Erfahrung auf Ihrem Gerät!</p>
+            <div class="install-buttons">
+                <button id="installButton" class="btn btn--primary">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="7,10 12,15 17,10"/>
+                        <line x1="12" y1="15" x2="12" y2="3"/>
+                    </svg>
+                    Installieren
+                </button>
+                <button id="dismissButton" class="btn btn--secondary">Später</button>
+            </div>
+        </div>
+    </div>
+
     <script src="app.js"></script>
+    
+    <!-- PWA Service Worker Registration -->
+    <script>
+        // Register Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then((registration) => {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch((registrationError) => {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
+
+        // PWA Install Prompt
+        let deferredPrompt;
+        const installPrompt = document.getElementById('installPrompt');
+        const installButton = document.getElementById('installButton');
+        const dismissButton = document.getElementById('dismissButton');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            console.log('beforeinstallprompt event fired');
+            // Prevent the mini-infobar from appearing on mobile
+            e.preventDefault();
+            // Stash the event so it can be triggered later
+            deferredPrompt = e;
+            // Show install prompt
+            showInstallPrompt();
+        });
+
+        function showInstallPrompt() {
+            // Don't show if already dismissed in this session
+            if (sessionStorage.getItem('installPromptDismissed')) {
+                return;
+            }
+            
+            // Show after a delay to not interrupt the user immediately
+            setTimeout(() => {
+                if (installPrompt) {
+                    installPrompt.classList.remove('hidden');
+                }
+            }, 5000);
+        }
+
+        if (installButton) {
+            installButton.addEventListener('click', async () => {
+                if (!deferredPrompt) {
+                    return;
+                }
+                
+                // Show the install prompt
+                deferredPrompt.prompt();
+                
+                // Wait for the user to respond to the prompt
+                const { outcome } = await deferredPrompt.userChoice;
+                console.log(`User response to the install prompt: ${outcome}`);
+                
+                // Clear the deferred prompt variable
+                deferredPrompt = null;
+                
+                // Hide the install prompt
+                hideInstallPrompt();
+            });
+        }
+
+        if (dismissButton) {
+            dismissButton.addEventListener('click', () => {
+                hideInstallPrompt();
+                sessionStorage.setItem('installPromptDismissed', 'true');
+            });
+        }
+
+        function hideInstallPrompt() {
+            if (installPrompt) {
+                installPrompt.classList.add('hidden');
+            }
+        }
+
+        // Listen for the app to be installed
+        window.addEventListener('appinstalled', (e) => {
+            console.log('PWA was installed');
+            hideInstallPrompt();
+            
+            // Optional: Track installation analytics
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'pwa_install', {
+                    'event_category': 'engagement',
+                    'event_label': 'PWA Installed'
+                });
+            }
+        });
+
+        // Check if app is already installed (display mode)
+        window.addEventListener('DOMContentLoaded', () => {
+            // Check if running in standalone mode (installed as PWA)
+            if (window.matchMedia('(display-mode: standalone)').matches || 
+                window.navigator.standalone === true) {
+                console.log('Running as installed PWA');
+                document.body.classList.add('pwa-installed');
+            }
+        });
+
+        // Handle offline/online states
+        window.addEventListener('online', () => {
+            console.log('App is online');
+            document.body.classList.remove('app-offline');
+        });
+
+        window.addEventListener('offline', () => {
+            console.log('App is offline');
+            document.body.classList.add('app-offline');
+        });
+    </script>
 </body>
 </html>

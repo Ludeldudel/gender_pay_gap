@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PWA Test - Gender Pay Gap</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #1f2121;
+            color: white;
+        }
+        .test-item {
+            background: #2a2c2c;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 4px solid #6de394;
+        }
+        .status {
+            float: right;
+            font-weight: bold;
+        }
+        .passed { color: #6de394; }
+        .failed { color: #ff3737; }
+        .warning { color: #ffa500; }
+        button {
+            background: #9f62f8;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #8a4ee8;
+        }
+    </style>
+</head>
+<body>
+    <h1>PWA Funktionalitäts-Test</h1>
+    <p>Diese Seite hilft beim Testen der Progressive Web App Features der Gender Pay Gap Anwendung.</p>
+    
+    <div class="test-item">
+        <strong>Service Worker Registrierung</strong>
+        <span class="status" id="sw-status">Testing...</span>
+        <p>Überprüft, ob der Service Worker erfolgreich registriert wurde.</p>
+    </div>
+    
+    <div class="test-item">
+        <strong>Web App Manifest</strong>
+        <span class="status" id="manifest-status">Testing...</span>
+        <p>Überprüft, ob das Web App Manifest korrekt geladen wird.</p>
+    </div>
+    
+    <div class="test-item">
+        <strong>Install Prompt</strong>
+        <span class="status" id="install-status">Testing...</span>
+        <p>Überprüft, ob die Installationsaufforderung verfügbar ist.</p>
+        <button onclick="testInstallPrompt()">Install Prompt testen</button>
+    </div>
+    
+    <div class="test-item">
+        <strong>Offline Funktionalität</strong>
+        <span class="status" id="offline-status">Testing...</span>
+        <p>Überprüft, ob die App offline funktioniert.</p>
+        <button onclick="testOffline()">Offline-Modus simulieren</button>
+    </div>
+    
+    <div class="test-item">
+        <strong>Native Sharing</strong>
+        <span class="status" id="share-status">Testing...</span>
+        <p>Überprüft, ob die Web Share API verfügbar ist.</p>
+        <button onclick="testSharing()">Sharing testen</button>
+    </div>
+    
+    <div class="test-item">
+        <strong>Push Notifications</strong>
+        <span class="status" id="push-status">Testing...</span>
+        <p>Überprüft, ob Push Notifications unterstützt werden.</p>
+        <button onclick="testPushNotifications()">Notifications testen</button>
+    </div>
+    
+    <div class="test-item">
+        <strong>Display Mode</strong>
+        <span class="status" id="display-status">Testing...</span>
+        <p>Zeigt den aktuellen Display-Modus an (browser/standalone).</p>
+    </div>
+    
+    <div style="margin-top: 30px;">
+        <h2>Aktionen</h2>
+        <button onclick="window.location.href = 'index.html'">Zur Hauptanwendung</button>
+        <button onclick="clearCaches()">Cache leeren</button>
+        <button onclick="location.reload()">Seite neu laden</button>
+    </div>
+    
+    <div style="margin-top: 20px;">
+        <h3>Browser Info</h3>
+        <div id="browser-info"></div>
+    </div>
+
+    <script>
+        // Test Service Worker
+        function testServiceWorker() {
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.getRegistration().then(registration => {
+                    if (registration) {
+                        document.getElementById('sw-status').textContent = 'Passed';
+                        document.getElementById('sw-status').className = 'status passed';
+                    } else {
+                        document.getElementById('sw-status').textContent = 'Not Registered';
+                        document.getElementById('sw-status').className = 'status warning';
+                    }
+                });
+            } else {
+                document.getElementById('sw-status').textContent = 'Not Supported';
+                document.getElementById('sw-status').className = 'status failed';
+            }
+        }
+
+        // Test Manifest
+        function testManifest() {
+            fetch('/manifest.json')
+                .then(response => {
+                    if (response.ok) {
+                        document.getElementById('manifest-status').textContent = 'Passed';
+                        document.getElementById('manifest-status').className = 'status passed';
+                    } else {
+                        throw new Error('Manifest not found');
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('manifest-status').textContent = 'Failed';
+                    document.getElementById('manifest-status').className = 'status failed';
+                });
+        }
+
+        // Test Install Prompt
+        function testInstallPrompt() {
+            if ('beforeinstallprompt' in window) {
+                document.getElementById('install-status').textContent = 'Supported';
+                document.getElementById('install-status').className = 'status passed';
+            } else {
+                document.getElementById('install-status').textContent = 'Not Supported';
+                document.getElementById('install-status').className = 'status warning';
+            }
+        }
+
+        // Test Offline
+        function testOffline() {
+            if ('serviceWorker' in navigator && 'caches' in window) {
+                document.getElementById('offline-status').textContent = 'Supported';
+                document.getElementById('offline-status').className = 'status passed';
+            } else {
+                document.getElementById('offline-status').textContent = 'Not Supported';
+                document.getElementById('offline-status').className = 'status failed';
+            }
+        }
+
+        // Test Sharing
+        function testSharing() {
+            if (navigator.share) {
+                document.getElementById('share-status').textContent = 'Supported';
+                document.getElementById('share-status').className = 'status passed';
+                
+                navigator.share({
+                    title: 'PWA Test',
+                    text: 'Testing Web Share API',
+                    url: window.location.href
+                }).catch(err => console.log('Share cancelled'));
+            } else {
+                document.getElementById('share-status').textContent = 'Not Supported';
+                document.getElementById('share-status').className = 'status warning';
+            }
+        }
+
+        // Test Push Notifications
+        function testPushNotifications() {
+            if ('Notification' in window && 'serviceWorker' in navigator) {
+                Notification.requestPermission().then(permission => {
+                    if (permission === 'granted') {
+                        document.getElementById('push-status').textContent = 'Granted';
+                        document.getElementById('push-status').className = 'status passed';
+                        
+                        new Notification('PWA Test', {
+                            body: 'Push Notifications funktionieren!',
+                            icon: '/icons/icon-192x192.png'
+                        });
+                    } else {
+                        document.getElementById('push-status').textContent = 'Denied';
+                        document.getElementById('push-status').className = 'status warning';
+                    }
+                });
+            } else {
+                document.getElementById('push-status').textContent = 'Not Supported';
+                document.getElementById('push-status').className = 'status failed';
+            }
+        }
+
+        // Test Display Mode
+        function testDisplayMode() {
+            let displayMode = 'browser';
+            if (window.matchMedia('(display-mode: standalone)').matches) {
+                displayMode = 'standalone';
+            } else if (window.matchMedia('(display-mode: minimal-ui)').matches) {
+                displayMode = 'minimal-ui';
+            } else if (window.matchMedia('(display-mode: fullscreen)').matches) {
+                displayMode = 'fullscreen';
+            }
+            
+            document.getElementById('display-status').textContent = displayMode;
+            document.getElementById('display-status').className = displayMode === 'standalone' ? 'status passed' : 'status warning';
+        }
+
+        // Clear caches
+        function clearCaches() {
+            if ('caches' in window) {
+                caches.keys().then(names => {
+                    names.forEach(name => {
+                        caches.delete(name);
+                    });
+                    alert('Cache geleert!');
+                });
+            }
+        }
+
+        // Show browser info
+        function showBrowserInfo() {
+            const info = {
+                'User Agent': navigator.userAgent,
+                'Platform': navigator.platform,
+                'Language': navigator.language,
+                'Online': navigator.onLine,
+                'Cookiesenabled': navigator.cookieEnabled,
+                'Screen Resolution': `${screen.width}x${screen.height}`,
+                'Viewport': `${window.innerWidth}x${window.innerHeight}`,
+                'Device Pixel Ratio': window.devicePixelRatio
+            };
+            
+            let html = '';
+            for (const [key, value] of Object.entries(info)) {
+                html += `<strong>${key}:</strong> ${value}<br>`;
+            }
+            
+            document.getElementById('browser-info').innerHTML = html;
+        }
+
+        // Run tests when page loads
+        window.addEventListener('load', () => {
+            testServiceWorker();
+            testManifest();
+            testInstallPrompt();
+            testOffline();
+            testSharing();
+            testDisplayMode();
+            showBrowserInfo();
+        });
+    </script>
+</body>
+</html>

@@ -75,7 +75,9 @@ const data = {
 
 // Global state
 let appState = {
-    visitStartTime: Date.now()
+    visitStartTime: Date.now(),
+    isOnline: navigator.onLine,
+    isPWA: false
 };
 
 let historicalChartAnimationFrame = null;
@@ -91,6 +93,7 @@ document.addEventListener('DOMContentLoaded', function() {
     startLiveCounter();
     drawHistoricalChart();
     displayIndustryData();
+    initializePWA();
 });
 
 function initializeApp() {
@@ -101,6 +104,15 @@ function initializeApp() {
     updateSalaryGap();
     updateAgeVisualization();
     updatePersonalCalculation();
+    
+    // Check if running as PWA
+    appState.isPWA = window.matchMedia('(display-mode: standalone)').matches || 
+                     window.navigator.standalone === true;
+    
+    // Handle orientation changes on mobile
+    if (screen.orientation) {
+        screen.orientation.addEventListener('change', handleOrientationChange);
+    }
 }
 
 function setupEventListeners() {
@@ -694,3 +706,300 @@ window.addEventListener('resize', scaleCounterToFit);
 window.addEventListener('load', () => {
     scaleCounterToFit();
 });
+
+// ============================================================================
+// PWA FUNCTIONALITY
+// ============================================================================
+
+function initializePWA() {
+    // Set up touch gestures for mobile
+    setupTouchGestures();
+    
+    // Handle network status changes
+    window.addEventListener('online', handleOnlineStatus);
+    window.addEventListener('offline', handleOfflineStatus);
+    
+    // Handle app visibility changes
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    
+    // Initialize keyboard shortcuts
+    setupKeyboardShortcuts();
+    
+    // Handle device orientation
+    handleOrientationChange();
+}
+
+function setupTouchGestures() {
+    // Add touch-friendly interactions
+    let touchStartY = 0;
+    let touchEndY = 0;
+    
+    document.addEventListener('touchstart', e => {
+        touchStartY = e.changedTouches[0].screenY;
+    }, { passive: true });
+    
+    document.addEventListener('touchend', e => {
+        touchEndY = e.changedTouches[0].screenY;
+        handleSwipeGesture();
+    }, { passive: true });
+    
+    function handleSwipeGesture() {
+        const swipeThreshold = 50;
+        const diff = touchStartY - touchEndY;
+        
+        if (Math.abs(diff) > swipeThreshold) {
+            if (diff > 0) {
+                // Swipe up - could trigger install prompt or scroll to next section
+                console.log('Swipe up detected');
+            } else {
+                // Swipe down - could refresh data or go to previous section
+                console.log('Swipe down detected');
+            }
+        }
+    }
+}
+
+function handleOnlineStatus() {
+    appState.isOnline = true;
+    console.log('App is online');
+    
+    // Sync any pending data or refresh content
+    if (typeof refreshData === 'function') {
+        refreshData();
+    }
+}
+
+function handleOfflineStatus() {
+    appState.isOnline = false;
+    console.log('App is offline');
+    
+    // Show offline message or switch to cached data
+    showOfflineMessage();
+}
+
+function showOfflineMessage() {
+    // Create or show offline indicator
+    const offlineIndicator = document.getElementById('offline-indicator');
+    if (offlineIndicator) {
+        offlineIndicator.style.display = 'block';
+    }
+}
+
+function handleVisibilityChange() {
+    if (document.hidden) {
+        // App went to background
+        console.log('App is hidden');
+        // Pause any intensive operations
+        if (historicalChartAnimationFrame) {
+            cancelAnimationFrame(historicalChartAnimationFrame);
+        }
+    } else {
+        // App came to foreground
+        console.log('App is visible');
+        // Resume operations and check for updates
+        scaleCounterToFit();
+        drawHistoricalChart();
+    }
+}
+
+function setupKeyboardShortcuts() {
+    document.addEventListener('keydown', (e) => {
+        // Only handle shortcuts if not typing in an input
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+            return;
+        }
+        
+        switch (e.key) {
+            case 'h':
+            case 'H':
+                // Go to hero/home section
+                document.getElementById('hero')?.scrollIntoView({ behavior: 'smooth' });
+                break;
+            case 'c':
+            case 'C':
+                // Go to calculator section
+                document.getElementById('calculator')?.scrollIntoView({ behavior: 'smooth' });
+                break;
+            case 'i':
+            case 'I':
+                // Go to industry section
+                document.getElementById('industry')?.scrollIntoView({ behavior: 'smooth' });
+                break;
+            case 's':
+            case 'S':
+                // Share the current result or page
+                if (e.ctrlKey || e.metaKey) {
+                    e.preventDefault();
+                    shareWebsite();
+                }
+                break;
+            case 'Escape':
+                // Close any open modals or prompts
+                hideInstallPrompt();
+                break;
+        }
+    });
+}
+
+function handleOrientationChange() {
+    // Recalculate layouts after orientation change
+    setTimeout(() => {
+        scaleCounterToFit();
+        drawHistoricalChart();
+    }, 300);
+}
+
+// Enhanced sharing with native Web Share API
+function shareWebsite() {
+    const text = 'Entdecke die schockierende Wahrheit über den Gender Pay Gap in Deutschland!';
+    const url = window.location.href;
+    const title = 'Gender Pay Gap Deutschland';
+
+    try {
+        if (navigator.share) {
+            navigator.share({
+                title: title,
+                text: text,
+                url: url
+            }).then(() => {
+                console.log('Content shared successfully');
+                // Track sharing analytics
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'share', {
+                        'event_category': 'engagement',
+                        'event_label': 'Website Shared',
+                        'method': 'native'
+                    });
+                }
+            }).catch((error) => {
+                console.log('Error sharing content:', error);
+                fallbackShare(url);
+            });
+        } else {
+            fallbackShare(url);
+        }
+    } catch (error) {
+        console.error('Fehler beim Teilen:', error);
+        fallbackShare(url);
+    }
+}
+
+function fallbackShare(url) {
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(url).then(() => {
+            showShareConfirmation('Link zur Website wurde in die Zwischenablage kopiert!');
+        }).catch(() => {
+            promptShare(url);
+        });
+    } else {
+        promptShare(url);
+    }
+}
+
+function promptShare(url) {
+    prompt('Link zur Website:', url);
+}
+
+function showShareConfirmation(message) {
+    // Create a temporary notification
+    const notification = document.createElement('div');
+    notification.className = 'share-notification';
+    notification.textContent = message;
+    notification.style.cssText = `
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--color-green);
+        color: white;
+        padding: 12px 20px;
+        border-radius: 8px;
+        font-size: 14px;
+        z-index: 1002;
+        animation: fadeInOut 3s ease-in-out;
+    `;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        if (notification.parentNode) {
+            notification.parentNode.removeChild(notification);
+        }
+    }, 3000);
+}
+
+// Enhanced share result function for personal calculator
+function shareResult() {
+    const lifetimeLossElement = document.getElementById('lifetimeLoss');
+    if (!lifetimeLossElement) return;
+    
+    const lifetimeLoss = lifetimeLossElement.textContent;
+    const text = `Ich habe gerade meinen persönlichen Gender Pay Gap berechnet: ${lifetimeLoss} Verlust über das Berufsleben! 📊💸`;
+    const url = window.location.href + '#calculator';
+    
+    try {
+        if (navigator.share) {
+            navigator.share({
+                title: 'Mein Gender Pay Gap Verlust',
+                text: text,
+                url: url
+            }).then(() => {
+                console.log('Result shared successfully');
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'share', {
+                        'event_category': 'engagement',
+                        'event_label': 'Personal Result Shared'
+                    });
+                }
+            }).catch((error) => {
+                console.log('Error sharing result:', error);
+                fallbackShare(text + ' ' + url);
+            });
+        } else {
+            fallbackShare(text + ' ' + url);
+        }
+    } catch (error) {
+        console.error('Fehler beim Teilen:', error);
+        alert('Ihr Verlust: ' + lifetimeLoss);
+    }
+}
+
+// Add CSS for share notification animation
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes fadeInOut {
+        0% { opacity: 0; transform: translateX(-50%) translateY(20px); }
+        20% { opacity: 1; transform: translateX(-50%) translateY(0); }
+        80% { opacity: 1; transform: translateX(-50%) translateY(0); }
+        100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+    }
+`;
+document.head.appendChild(style);
+
+// Performance monitoring for PWA
+function monitorPerformance() {
+    if ('performance' in window) {
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const perfData = performance.getEntriesByType('navigation')[0];
+                console.log('Page load performance:', {
+                    domContentLoaded: perfData.domContentLoadedEventEnd - perfData.domContentLoadedEventStart,
+                    loadComplete: perfData.loadEventEnd - perfData.loadEventStart,
+                    totalTime: perfData.loadEventEnd - perfData.fetchStart
+                });
+                
+                // Track Core Web Vitals if available
+                if ('PerformanceObserver' in window) {
+                    new PerformanceObserver((list) => {
+                        for (const entry of list.getEntries()) {
+                            console.log(`${entry.name}: ${entry.value}`);
+                        }
+                    }).observe({ entryTypes: ['largest-contentful-paint', 'cumulative-layout-shift'] });
+                }
+            }, 0);
+        });
+    }
+}
+
+// Initialize performance monitoring
+monitorPerformance();
