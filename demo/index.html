@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Gender Pay Gap Deutschland - Demo Version</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="description" content="Demo Version: Interaktive Analyse der geschlechterbedingten Lohnlücke in Deutschland mit Live-Counter, persönlichem Rechner und Datenvisualisierungen.">
+    <meta name="keywords" content="Gender Pay Gap, Lohnlücke, Deutschland, Gleichberechtigung, Statistik, Demo">
+    <meta name="author" content="Gender Pay Gap App Demo">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Mobile Web App Meta Tags -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Gender Pay Gap Demo">
+    <meta name="msapplication-TileColor" content="#9f62f8">
+    <meta name="theme-color" content="#9f62f8">
+    
+    <!-- App Icons -->
+    <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/icon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="icons/icon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="icons/icon-180x180.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="icons/icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="icons/icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="icons/icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="icons/icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="icons/icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="icons/icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="icons/icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="icons/icon-57x57.png">
+    
+    <!-- Microsoft Tiles -->
+    <meta name="msapplication-TileImage" content="icons/icon-144x144.png">
+    <meta name="msapplication-config" content="browserconfig.xml">
+    
+    <!-- Touch and Interaction -->
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="address=no">
+    
+    <!-- Security -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+    <!-- Auto-Scroll Animation Overlay -->
+    <div id="autoScrollOverlay" class="auto-scroll-overlay hidden">
+        <div class="auto-scroll-content">
+            <h2>✨ Moment...</h2>
+            <p>Die Seite wird neu geladen...</p>
+            <div class="scroll-animation">
+                <div class="scroll-arrow">↑</div>
+                <div class="scroll-progress">
+                    <div class="progress-bar"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scroll Guide Animation -->
+    <div id="scrollGuide" class="scroll-guide hidden">
+        <div class="guide-content">
+            <h3>� Bitte scrollen Sie</h3>
+            <p>Bewegen Sie die Seite nach unten</p>
+            <div class="scroll-hint">
+                <div class="scroll-mouse">
+                    <div class="scroll-wheel"></div>
+                </div>
+                <div class="scroll-text">Nach unten scrollen</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero-section" id="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Der Gender Pay Gap in Deutschland</h1>
+                <div class="hero-subtitle">Jede Stunde verlieren Frauen im Vergleich zu Männern <span class="highlight-amount">4,10€</span></div>
+                
+                <div class="live-counter-container">
+                    <div class="live-counter">
+                        <div class="counter-label">Geld verloren seit Ihrem Besuch:**</div>
+                        <div class="counter-scale-wrapper">
+                          <div class="counter-value seven-segment" id="liveCounter">
+                            <!-- 10 digits + € sign, initialisiert mit 0 -->
+                            <span class="digit" data-char="0"></span>
+                            <span class="digit" data-char="0"></span>
+                            <span class="digit" data-char="0"></span>
+                            <span class="digit" data-char="0"></span>
+                            <span class="digit" data-char="0"></span>
+                            <span class="digit" data-char="0"></span>
+                            <span class="digit" data-char="0"></span>
+                            <span class="digit" data-char="0"></span>
+                            <span class="digit" data-char="0"></span>
+                            <span class="digit" data-char="0"></span>
+
+                          </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="salary-comparison">
+                    <div class="salary-bar male-salary">
+                        <div class="salary-label">Männer</div>
+                        <div class="salary-amount">26,34€/h</div>
+                        <div class="salary-visual"></div>
+                    </div>
+                    <div class="salary-bar female-salary">
+                        <div class="salary-label">Frauen</div>
+                        <div class="salary-amount">22,24€/h</div>
+                        <div class="salary-visual"></div>
+                    </div>
+                </div>
+
+                <div class="interactive-slider-container">
+                    <label for="salarySlider" class="slider-label">Testen Sie verschiedene Gehaltsstufen:</label>
+                    <input type="range" id="salarySlider" min="20000" max="100000" value="50000" step="1000" class="salary-slider">
+                    <div class="slider-output">
+                        <div class="slider-result">
+                            <span>Bei <span id="sliderSalary">50.000€</span> Jahresgehalt:</span>
+                            <div class="gap-visualization">
+                                <span class="gap-amount" id="gapAmount">8.000€</span> weniger pro Jahr
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Historical Development -->
+    <section class="section historical-section" id="historical">
+        <div class="container">
+            <h2>Historische Entwicklung: Stillstand statt Fortschritt</h2>
+            <p>Seit 2020 stagnierte der Gender Pay Gap bei 18%. Erst 2024 gab es wieder eine Verbesserung auf 16%.</p>
+            
+            <div class="chart-container">
+                <canvas id="historicalChart"></canvas>
+            </div>
+
+            <div class="timeline-highlights">
+                <div class="highlight-item">
+                    <div class="highlight-year">2020-2023</div>
+                    <div class="highlight-text">Stagnation bei 18% - vier Jahre ohne Fortschritt</div>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-year">2024</div>
+                    <div class="highlight-text">Verbesserung auf 16% - langsamer Fortschritt</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Migration Pay Gap -->
+    <section class="section migration-section" id="migration">
+        <div class="container">
+            <h2>Doppelte Diskriminierung: Geschlecht + Migrationshintergrund</h2>
+            <p>Frauen mit Migrationshintergrund erleben intersektionale Diskriminierung und verdienen 32% weniger als Männer ohne Migrationshintergrund.</p>
+            
+            <div class="discrimination-chart">
+                <div class="bar-item">
+                    <div class="bar-label">Männer ohne Migrationshintergrund</div>
+                    <div class="bar-container">
+                        <div class="bar male-bar" style="width: 100%;">100%</div>
+                    </div>
+                </div>
+                <div class="bar-item">
+                    <div class="bar-label">Frauen ohne Migrationshintergrund</div>
+                    <div class="bar-container">
+                        <div class="bar female-bar" style="width: 84%;">84% (-16%)</div>
+                    </div>
+                </div>
+                <div class="bar-item">
+                    <div class="bar-label">Männer mit Migrationshintergrund</div>
+                    <div class="bar-container">
+                        <div class="bar male-bar" style="width: 82%;">82% (-18%)</div>
+                    </div>
+                </div>
+                <div class="bar-item">
+                    <div class="bar-label">Frauen mit Migrationshintergrund</div>
+                    <div class="bar-container">
+                        <div class="bar female-bar" style="width: 68%;">68% (-32%)</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="insight-box">
+                <h3>Kernaussage</h3>
+                <p>Frauen mit Migrationshintergrund sind am stärksten betroffen - sie erleben sowohl Geschlechts- als auch Herkunftsdiskriminierung. Der Unterschied zu Männern ohne Migrationshintergrund beträgt tatsächlich 32%.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Personal Calculator -->
+    <section class="section calculator-section" id="calculator">
+        <div class="container">
+            <h2>Ihr persönlicher Lohnlücken-Rechner</h2>
+            <p>Berechnen Sie Ihren persönlichen Verlust über das gesamte Berufsleben</p>
+            
+            <div class="calculator-form">
+                <div class="form-group">
+                    <label for="personalSalary" class="form-label">Ihr aktuelles Jahresgehalt:</label>
+                    <input type="number" id="personalSalary" class="form-control" value="50000" min="20000" max="200000" step="1000">
+                </div>
+                
+                <div class="form-group">
+                    <label for="personalAge" class="form-label">Ihr aktuelles Alter:</label>
+                    <input type="number" id="personalAge" class="form-control" value="30" min="22" max="65">
+                </div>
+
+                <div class="form-group">
+                    <label for="personalGender" class="form-label">Ihr Geschlecht:</label>
+                    <select id="personalGender" class="form-control">
+                        <option value="female">Weiblich*</option>
+                        <option value="male">Männlich*</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="calculation-result" id="calculationResult">
+                <div class="result-highlight">
+                    <div class="loss-amount" id="lifetimeLoss">560.000€</div>
+                    <div class="loss-label">Verlust über das Berufsleben</div>
+                </div>
+                
+                <div class="what-could-buy">
+                    <h4>Das könnten Sie sich davon leisten:</h4>
+                    <div class="purchase-options" id="purchaseOptions">
+                        <div class="purchase-item">Haus-Anzahlung: <span>200.000€</span></div>
+                        <div class="purchase-item">14 Neuwagen: <span>560.000€</span></div>
+                        <div class="purchase-item">17 Studienfinanzierungen: <span>560.000€</span></div>
+                        <!-- <div class="purchase-item">Altersvorsorge-Bonus: <span>560.000€</span></div> -->
+                    </div>
+                </div>
+
+                <button class="btn btn--primary share-result" onclick="shareResult()">
+                    Ergebnis teilen
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Career Progression -->
+    <section class="section career-section" id="career">
+        <div class="container">
+            <h2>Lebenslauf einer Lohnlücke</h2>
+            <p>Sehen Sie, wie sich der Gap mit dem Alter entwickelt - besonders dramatisch ab 35 Jahren</p>
+            
+            <div class="age-slider-container">
+                <label for="ageSlider">Alter: <span id="currentAge">30</span> Jahre</label>
+                <input type="range" id="ageSlider" min="25" max="65" value="30" step="5" class="age-slider">
+            </div>
+
+            <div class="career-visualization">
+                <div class="age-info" id="ageInfo">
+                    <div class="age-gap">Gap: <span id="ageGapValue">14%</span></div>
+                    <div class="age-description" id="ageDescription">
+                        Mit 30 Jahren beginnt die "Mutterschaftsstrafe" - der Gender Pay Gap verdoppelt sich durch Familiengründung und Teilzeitarbeit.
+                    </div>
+                </div>
+                
+                <div class="career-paths">
+                    <div class="path-scenario">
+                        <h4>Szenario: Mit Kindern</h4>
+                        <div class="path-progression" id="withKidsPath"></div>
+                    </div>
+                    <div class="path-scenario">
+                        <h4>Szenario: Ohne Kinder</h4>
+                        <div class="path-progression" id="withoutKidsPath"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Industry Analysis -->
+    <section class="section industry-section" id="industry">
+        <div class="container">
+            <h2>Branchenanalyse: Wo ist der Gap am größten?</h2>
+            <p>Interaktive Visualisierung der Lohnlücken nach Branchen - bewegen Sie die Maus über die Balken für Details</p>
+            
+            <div class="industry-analysis" id="industryData">
+                <!-- Industry data will be populated by JavaScript -->
+            </div>
+
+            <div class="industry-insights">
+                <div class="insight-card">
+                    <h4>Größte Lücken</h4>
+                    <p>Medizintechnik (22,6%) und Business Development (18%) führen die Liste der größten Pay Gaps an.</p>
+                </div>
+                <div class="insight-card">
+                    <h4>Faire Branchen</h4>
+                    <p>Import/Export (0,3%) und Gesundheitswesen (3,2%) zeigen, dass Lohngerechtigkeit möglich ist.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pension Gap -->
+    <section class="section pension-section" id="pension">
+        <div class="container">
+            <h2>Die Rentenlücke: Die Gefahr der Altersarmut</h2>
+            <div class="pension-stats">
+                <div class="stat-card dramatic">
+                    <div class="stat-number">27,1%</div>
+                    <div class="stat-label">Rentenlücke zwischen Männern und Frauen</div>
+                </div>
+                <div class="stat-card warning">
+                    <div class="stat-number">20,8%</div>
+                    <div class="stat-label">Frauen über 65 armutsgefährdet</div>
+                </div>
+                <div class="stat-card comparison">
+                    <div class="stat-number">15,9%</div>
+                    <div class="stat-label">Männer über 65 armutsgefährdet</div>
+                </div>
+            </div>
+            
+            <div class="compound-effect">
+                <h3>Der Zinseszinseffekt der Diskriminierung</h3>
+                <p class="compound-explanation">
+                    Wie bei Zinsen verstärkt sich die Lohnlücke über die Zeit selbst: Geringere Anfangsgehälter führen zu niedrigeren Gehaltserhöhungen, 
+                    weniger Beförderungen und schließlich zu deutlich geringeren Renten. Jeder verlorene Euro heute kostet überproportional viel in der Zukunft.
+                </p>
+                <div class="effect-visualization">
+                    <div class="effect-stage">
+                        <div class="stage-title">Berufseinstieg (25)</div>
+                        <div class="stage-gap">9% Gap</div>
+                    </div>
+                    <div class="effect-arrow">→</div>
+                    <div class="effect-stage">
+                        <div class="stage-title">Familiengründung (35)</div>
+                        <div class="stage-gap">19% Gap</div>
+                    </div>
+                    <div class="effect-arrow">→</div>
+                    <div class="effect-stage">
+                        <div class="stage-title">Karrierehöhepunkt (45)</div>
+                        <div class="stage-gap">28% Gap</div>
+                    </div>
+                    <div class="effect-arrow">→</div>
+                    <div class="effect-stage">
+                        <div class="stage-title">Rente (65)</div>
+                        <div class="stage-gap">27% Rentenlücke</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Adjusted vs Unadjusted -->
+    <section class="section explanation-section" id="explanation">
+        <div class="container">
+            <h2>16% vs 6%: Warum die "Bereinigung" das Problem verschleiert</h2>
+            
+            <div class="gap-comparison">
+                <div class="gap-card unadjusted">
+                    <h3>16% Unbereinigter Gap</h3>
+                    <p>Zeigt die tatsächliche Realität: Frauen verdienen 16% weniger als Männer</p>
+                    <div class="gap-visual" style="background: linear-gradient(90deg, var(--color-primary) 84%, var(--color-error) 84%);">
+                        <span class="gap-label">84% Frauenlohn</span>
+                    </div>
+                </div>
+                
+                <div class="gap-card adjusted">
+                    <h3>6% Bereinigter Gap</h3>
+                    <p>Rechnet strukturelle Faktoren weg - aber das sind genau die Probleme!</p>
+                    <div class="gap-visual" style="background: linear-gradient(90deg, var(--color-primary) 94%, var(--color-error) 94%);">
+                        <span class="gap-label">94% nach "Bereinigung"</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="factors-breakdown">
+                <h3>Was wird "weggerechnet"?</h3>
+                <div class="factor-list">
+                    <div class="factor-item">
+                        <div class="factor-name">Teilzeitarbeit</div>
+                        <div class="factor-impact">-3%</div>
+                        <div class="factor-explanation">Aber: Warum arbeiten Frauen Teilzeit? Meist wegen Kinderbetreuung!</div>
+                    </div>
+                    <div class="factor-item">
+                        <div class="factor-name">Branchenwahl</div>
+                        <div class="factor-impact">-4%</div>
+                        <div class="factor-explanation">Aber: Warum sind "Frauenberufe" schlechter bezahlt?</div>
+                    </div>
+                    <div class="factor-item">
+                        <div class="factor-name">Führungspositionen</div>
+                        <div class="factor-impact">-3%</div>
+                        <div class="factor-explanation">Aber: Warum sind Frauen seltener in Führung?</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="critical-analysis">
+                <h3>Warum 6% alarmierend sind:</h3>
+                <p>Die verbleibenden 6% sind <strong>direkte Diskriminierung</strong></p>
+                <div class="analysis-points">
+                    <div class="point">Gleiche Qualifikation, unterschiedliche Bezahlung</div>
+                    <div class="point">Unbewusste Vorurteile in Gehaltsverhandlungen</div>
+                    <div class="point">Systematische Unterbewertung von Frauen</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- International Comparison -->
+    <section class="section comparison-section" id="comparison">
+        <div class="container">
+            <h2>Deutschland im internationalen Vergleich</h2>
+            <div class="comparison-subtitle">Deutschland gehört zu den schlechtesten EU-Ländern</div>
+            
+            <div class="comparison-grid">
+                <div class="country-card worst">
+                    <div class="country-name">Lettland</div>
+                    <div class="country-gap">19%</div>
+                    <div class="country-rank">#1 Schlechtestes</div>
+                </div>
+                <div class="country-card current">
+                    <div class="country-name">Deutschland</div>
+                    <div class="country-gap">16%</div>
+                    <div class="country-rank">#4 von 27</div>
+                </div>
+                <div class="country-card average">
+                    <div class="country-name">EU-Durchschnitt</div>
+                    <div class="country-gap">12%</div>
+                    <div class="country-rank">Durchschnitt</div>
+                </div>
+                <div class="country-card best">
+                    <div class="country-name">Luxemburg</div>
+                    <div class="country-gap">-0,9%</div>
+                    <div class="country-rank">Bestwert</div>
+                </div>
+            </div>
+
+            <!-- <div class="iceland-spotlight">
+                <h3>Islands Erfolgsgeheimnis</h3>
+                <div class="iceland-features">
+                    <div class="feature">Lohntransparenz-Gesetz seit 2018</div>
+                    <div class="feature">Verpflichtende Elternzeit für Väter</div>
+                    <div class="feature">Zertifizierungspflicht für Unternehmen</div>
+                    <div class="feature">Starke Gewerkschaften</div>
+                </div>
+            </div> -->
+        </div>
+    </section>
+
+    <!-- Solutions -->
+    <section class="section solutions-section" id="solutions">
+        <div class="container">
+            <h2>Maßnahmen: Was könnte funktionieren ?</h2>
+            <p>Evidenzbasierte Maßnahmen für mehr Lohngerechtigkeit</p>
+            
+            <div class="solution-cards">
+                <div class="solution-card">
+                    <h4>EU-Transparenz-Richtlinie</h4>
+                    <div class="solution-timeline">Countdown bis 2026</div>
+                    <p>Gehaltsangaben in Stellenausschreibungen werden verpflichtend.</p>
+                </div>
+                <div class="solution-card">
+                    <h4>Bessere Kinderbetreuung</h4>
+                    <!-- <div class="solution-impact">Reduktion: 10%</div> -->
+                    <p>Ganztägige, qualitativ hochwertige Betreuung reduziert die Teilzeitfalle für Frauen.</p>
+                </div>
+                <div class="solution-card">
+                    <h4>Väterkarenz wie in Island</h4>
+                    <!-- <div class="solution-impact">Reduktion: 11%</div> -->
+                    <p>Verpflichtende Elternzeit für Männer reduziert die Mutterschaftsstrafe erheblich.</p>
+                </div>
+            </div>
+
+
+
+            <div class="action-section">
+                <h3>Was Sie jetzt tun können</h3>
+                <div class="action-grid">
+                    <div class="action-card">
+                        <h4>Als Individuum</h4>
+                        <ul>
+                            <li>Gehalt transparent diskutieren</li>
+                            <li>Gehaltsverhandlung vorbereiten</li>
+                            <li>Awareness schaffen</li>
+                        </ul>
+                    </div>
+                    <div class="action-card">
+                        <h4>Als Unternehmen</h4>
+                        <ul>
+                            <li>Gehaltstransparenz einführen</li>
+                            <li>Unbewusste Vorurteile abbauen</li>
+                            <li>Flexible Arbeitsmodelle</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer-section">
+        <div class="container">
+            <div class="final-cta">
+                <h3>Machen Sie den Unterschied!</h3>
+                <p>Teilen Sie diese Erkenntnisse und setzen Sie sich für Lohngerechtigkeit ein.</p>
+                <div class="cta-buttons">
+                    <button class="btn btn--primary" onclick="shareWebsite()">Website teilen</button>
+
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Neuer Footer-Bereich -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Über dieses Projekt</h3>
+                    <p>Diese Website soll auf kreative und interaktive Weise über die geschlechterbedingte Lohnlücke in Deutschland informieren.</p>
+                    <p>Die Daten basieren auf offiziellen Statistiken des Statistischen Bundesamtes und der Europäischen Union.</p>
+                    <p>*Auf dieser Webseite sind alle Menschen inkludiert, die Statistiken unterscheiden jedoch nur zwischen Männern und Frauen.</p>
+                    <p> **Der dargestellte Counter basiert auf Vereinfachungen und dient rein als Veranschaulichung</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Ressourcen</h3>
+                    <ul>
+                        <li><a href="https://www.destatis.de/DE/Themen/Arbeit/Verdienste/Verdienste-Verdienstunterschiede/_inhalt.html" target="_blank">Statistisches Bundesamt</a></li>
+                        <li><a href="https://ec.europa.eu/eurostat/de/web/main/data/database" target="_blank">Eurostat</a></li>
+                        <li><a href="https://www.bmfsfj.de/bmfsfj/themen/gleichstellung/gleichstellung-und-teilhabe" target="_blank">Bundesministerium für Familie, Senioren, Frauen und Jugend</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+
+        </div>
+    </footer>
+
+    <!-- PWA Install Button -->
+    <div id="installPrompt" class="install-prompt hidden">
+        <div class="install-content">
+            <h3>Als App installieren</h3>
+            <p>Installieren Sie die Gender Pay Gap App für eine bessere Erfahrung auf Ihrem Gerät!</p>
+            <div class="install-buttons">
+                <button id="installButton" class="btn btn--primary">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="7,10 12,15 17,10"/>
+                        <line x1="12" y1="15" x2="12" y2="3"/>
+                    </svg>
+                    Installieren
+                </button>
+                <button id="dismissButton" class="btn btn--secondary">Später</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    
+    <!-- PWA Service Worker Registration -->
+    <script>
+        // Register Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then((registration) => {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch((registrationError) => {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
+
+        // PWA Install Prompt
+        let deferredPrompt;
+        const installPrompt = document.getElementById('installPrompt');
+        const installButton = document.getElementById('installButton');
+        const dismissButton = document.getElementById('dismissButton');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            console.log('beforeinstallprompt event fired');
+            // Prevent the mini-infobar from appearing on mobile
+            e.preventDefault();
+            // Stash the event so it can be triggered later
+            deferredPrompt = e;
+            // Show install prompt
+            showInstallPrompt();
+        });
+
+        function showInstallPrompt() {
+            // Don't show if already dismissed in this session
+            if (sessionStorage.getItem('installPromptDismissed')) {
+                return;
+            }
+            
+            // Show after a delay to not interrupt the user immediately
+            setTimeout(() => {
+                if (installPrompt) {
+                    installPrompt.classList.remove('hidden');
+                }
+            }, 5000);
+        }
+
+        if (installButton) {
+            installButton.addEventListener('click', async () => {
+                if (!deferredPrompt) {
+                    return;
+                }
+                
+                // Show the install prompt
+                deferredPrompt.prompt();
+                
+                // Wait for the user to respond to the prompt
+                const { outcome } = await deferredPrompt.userChoice;
+                console.log(`User response to the install prompt: ${outcome}`);
+                
+                // Clear the deferred prompt variable
+                deferredPrompt = null;
+                
+                // Hide the install prompt
+                hideInstallPrompt();
+            });
+        }
+
+        if (dismissButton) {
+            dismissButton.addEventListener('click', () => {
+                hideInstallPrompt();
+                sessionStorage.setItem('installPromptDismissed', 'true');
+            });
+        }
+
+        function hideInstallPrompt() {
+            if (installPrompt) {
+                installPrompt.classList.add('hidden');
+            }
+        }
+
+        // Listen for the app to be installed
+        window.addEventListener('appinstalled', (e) => {
+            console.log('PWA was installed');
+            hideInstallPrompt();
+            
+            // Optional: Track installation analytics
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'pwa_install', {
+                    'event_category': 'engagement',
+                    'event_label': 'PWA Installed'
+                });
+            }
+        });
+
+        // Check if app is already installed (display mode)
+        window.addEventListener('DOMContentLoaded', () => {
+            // Check if running in standalone mode (installed as PWA)
+            if (window.matchMedia('(display-mode: standalone)').matches || 
+                window.navigator.standalone === true) {
+                console.log('Running as installed PWA');
+                document.body.classList.add('pwa-installed');
+            }
+        });
+
+        // Handle offline/online states
+        window.addEventListener('online', () => {
+            console.log('App is online');
+            document.body.classList.remove('app-offline');
+        });
+
+        window.addEventListener('offline', () => {
+            console.log('App is offline');
+            document.body.classList.add('app-offline');
+        });
+    </script>
+</body>
+</html>

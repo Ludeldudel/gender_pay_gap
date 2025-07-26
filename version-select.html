@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gender Pay Gap Deutschland - Version Auswahl</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1f2121 0%, #2a2c2c 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #6de394, #9f62f8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #a7a9a9;
+            margin-bottom: 3rem;
+        }
+        
+        .version-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .version-card {
+            background: rgba(38, 40, 40, 0.8);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .version-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .version-card.main {
+            border-color: #6de394;
+        }
+        
+        .version-card.main:hover {
+            box-shadow: 0 20px 40px rgba(109, 227, 148, 0.3);
+        }
+        
+        .version-card.demo {
+            border-color: #9f62f8;
+        }
+        
+        .version-card.demo:hover {
+            box-shadow: 0 20px 40px rgba(159, 98, 248, 0.3);
+        }
+        
+        .version-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .version-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        
+        .main .version-title {
+            color: #6de394;
+        }
+        
+        .demo .version-title {
+            color: #9f62f8;
+        }
+        
+        .version-description {
+            color: #a7a9a9;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .feature-list {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 1.5rem;
+        }
+        
+        .feature-list li {
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        
+        .feature-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+        
+        .main .feature-list li::before {
+            color: #6de394;
+        }
+        
+        .demo .feature-list li::before {
+            color: #9f62f8;
+        }
+        
+        .launch-btn {
+            background: linear-gradient(135deg, #6de394, #9f62f8);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .launch-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .footer {
+            margin-top: 3rem;
+            color: #777;
+            font-size: 0.9rem;
+        }
+        
+        .footer a {
+            color: #6de394;
+            text-decoration: none;
+        }
+        
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .version-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .version-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Gender Pay Gap Deutschland</h1>
+        <p class="subtitle">Interaktive Analyse der geschlechterbedingten Lohnlücke</p>
+        
+        <div class="version-grid">
+            <!-- Main Version -->
+            <a href="index.html" class="version-card main">
+                <div class="version-icon">🌐</div>
+                <h2 class="version-title">Hauptversion</h2>
+                <p class="version-description">
+                    Die vollständige interaktive Website mit allen Features für normale Benutzer.
+                </p>
+                <ul class="feature-list">
+                    <li>Live-Counter startet sofort</li>
+                    <li>Vollständige PWA-Funktionalität</li>
+                    <li>Optimiert für reguläre Nutzung</li>
+                    <li>Alle interaktiven Elemente</li>
+                    <li>Mobile & Desktop optimiert</li>
+                </ul>
+                <span class="launch-btn">Zur Hauptversion →</span>
+            </a>
+            
+            <!-- Demo Version -->
+            <a href="demo/index.html" class="version-card demo">
+                <div class="version-icon">🔬</div>
+                <h2 class="version-title">Demo-Version</h2>
+                <p class="version-description">
+                    Spezielle Version für Präsentationen mit Auto-Scroll und erweiterten Demo-Features.
+                </p>
+                <ul class="feature-list">
+                    <li>Auto-Scroll nach 1 Min Inaktivität</li>
+                    <li>Counter startet nach erstem Scroll</li>
+                    <li>Animierte Scroll-Anleitung</li>
+                    <li>Demo-Indikator & Steuerung</li>
+                    <li>Perfekt für Vorführungen</li>
+                </ul>
+                <span class="launch-btn">Zur Demo-Version →</span>
+            </a>
+        </div>
+        
+        <div class="footer">
+            <p>
+                Entwickelt für die Hochschule für angewandte Wissenschaften<br>
+                Daten basieren auf offiziellen Statistiken des 
+                <a href="https://www.destatis.de" target="_blank">Statistischen Bundesamtes</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>
