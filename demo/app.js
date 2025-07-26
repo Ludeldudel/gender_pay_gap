@@ -184,6 +184,7 @@ function setupDemoScrollListeners() {
         clearTimeout(scrollTimeout);
         scrollTimeout = setTimeout(() => {
             if (!appState.demo.autoScrollInProgress) {
+                console.log('🔄 User scroll finished - attempting to start timer');
                 startInactivityTimer();
             }
         }, 800); // Wait for scroll to finish
@@ -215,6 +216,13 @@ function startInactivityTimer() {
     
     // Don't start timer if auto-scroll is in progress
     if (appState.demo.autoScrollInProgress) {
+        console.log('⏸️  Not starting timer - auto-scroll in progress');
+        return;
+    }
+    
+    // Don't start timer if counter hasn't been started yet (page is already reset)
+    if (!appState.demo.counterStarted) {
+        console.log('⏸️  Not starting timer - counter not started yet (page is reset)');
         return;
     }
     
@@ -256,8 +264,8 @@ function triggerAutoScroll() {
             showScrollGuide();
             appState.demo.scrollGuideShown = false;
             
-            // Restart inactivity timer
-            startInactivityTimer();
+            // DON'T restart inactivity timer here - wait for user to scroll first
+            console.log('✅ Auto-scroll complete - waiting for user interaction to restart timer');
         }, 2000);
         
     }, 1000);
